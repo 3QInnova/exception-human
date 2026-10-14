@@ -768,11 +768,12 @@ function drawNotice(o){let z=trap[o.id];if(z.phase==='done')return;let y=noticeT
  if(z.phase==='armed')dotline(x+w/2,y+90,x+w/2,FLOOR,'#d7565e');
  if(seen.has(`${room}:${o.id}`))learned(noticeX(o)+w/2,o.shifting?'SHIFTING DROP':'DIALOG');
 }
+function forecastCaptionX(x,pad){return L.longSession?Math.max(cameraX+pad,Math.min(cameraX+canvas.width-pad,x)):Math.max(pad,Math.min(W-pad,x))}
 function drawForecast(f){let z=trap[f.id];if(z.phase==='idle'){
   const scanning=player.x+PW/2>=f.trigger-110;
   label(scanning?'SCANNING…':'PREDICTION ENGINE',f.trigger-14,FLOOR-87,10,scanning?CYAN:'#ba8b75','center');return}
  if(z.phase==='done'){
-  if(sceneTime<z.resultUntil){const cx=Math.max(90,Math.min(W-90,z.x+f.w/2));
+  if(sceneTime<z.resultUntil){const cx=forecastCaptionX(z.x+f.w/2,90);
    ctx.save();ctx.globalAlpha=Math.min(1,(z.resultUntil-sceneTime)/.3);
    card(cx-88,FLOOR-102,176,50,'#e7f1e3',MINT);
    label('PREDICTION FAILED',cx,FLOOR-82,12,MINT,'center');label('HUMAN SURVIVED',cx,FLOOR-65,10,INK,'center');
@@ -789,7 +790,7 @@ function drawForecast(f){let z=trap[f.id];if(z.phase==='idle'){
  ctx.globalAlpha=on?.96:.60;
  ctx.fillStyle=on?RED:GOLD;ctx.beginPath();ctx.arc(x+w/2,y+20,9,0,Math.PI*2);ctx.fill();
  rounded(x+w/2-9,y+31,18,22,4);ctx.fill();ctx.globalAlpha=1;
- const cx=Math.max(87,Math.min(W-87,x+w/2));card(cx-85,y-58,170,48,on?'#f5e0dc':'#faf3df',on?RED:GOLD);
+ const cx=forecastCaptionX(x+w/2,87);card(cx-85,y-58,170,48,on?'#f5e0dc':'#faf3df',on?RED:GOLD);
  label(on?'PURGE ACTIVE':'TARGET LOCKED',cx,y-39,12,on?RED:INK,'center');
  const countdown=Math.max(0,z.t-sceneTime);label(on?'KEEP CLEAR':`MOVE OUT · ${countdown.toFixed(2)}s`,cx,y-23,10,on?RED:INK,'center');
  if(!on){const remaining=Math.max(0,Math.min(1,countdown/f.delay));rect(x,y+65,w,5,'#d6cbb6');rect(x,y+65,w*remaining,5,GOLD);}
