@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#202832"><title>EXCEPTION: HUMAN — iPhone</title><style>
+:root{color-scheme:dark;--paper:#eeeadd;--ink:#2b3a40;--green:#b4e6a1;--gold:#e9ce7b;--pink:#fb7580}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none;background:#121821;color:#f5f0df;font:14px/1.35 system-ui,-apple-system,sans-serif;-webkit-text-size-adjust:100%}html,body{touch-action:manipulation}button{font:inherit;color:inherit;border:1px solid #7b9798;background:#303e49;border-radius:8px;min-height:44px;cursor:pointer;touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}button:active,button.held{background:#426d65;border-color:#b4e6a1}button:disabled{opacity:.45}button:focus-visible{outline:3px solid var(--gold)}[hidden]{display:none!important}
+#mobileApp{height:100vh;height:100dvh;width:100%;padding:max(6px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));display:grid;grid-template-columns:108px minmax(0,1fr) 116px;grid-template-rows:44px minmax(0,1fr) 88px;gap:6px}
+#mobileHeader{grid-column:1/-1;display:flex;gap:12px;align-items:center;justify-content:space-between;font-size:13px;min-width:0}#mobileHeader b{font-size:16px;letter-spacing:-.04em;color:var(--green)}.brief{display:flex;gap:12px;align-items:center}.brief span{white-space:nowrap}#mobilePause{min-width:64px;padding:7px 10px}#stage{grid-column:2;grid-row:2;position:relative;min-height:0;background:var(--paper);border:2px solid #d6d0bb;border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center}#game{display:block;width:100%;height:100%;object-fit:contain;max-width:100%;max-height:100%}#touch{display:contents}#touch button{touch-action:none}#mobileApp{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}.screen{touch-action:manipulation}#movePad{grid-column:1;grid-row:2;align-self:end;display:flex;gap:4px;padding-bottom:8px}#movePad button{width:52px;height:74px;font-size:25px}#actionPad{grid-column:3;grid-row:2;align-self:end;display:flex;flex-direction:column;gap:8px;padding-bottom:8px}#touchjump{height:78px;font-size:17px;font-weight:800}#glitch{height:58px;background:#426d65;border-color:#8ee7cc;font-size:13px;font-weight:800}#mobileDialogue{grid-column:1/-1;grid-row:3;min-width:0;border-left:3px solid var(--green);padding:5px 10px;background:#202832;border-radius:4px;overflow:hidden}#mobileDialogue[data-mode="warn"]{border-color:var(--gold)}#mobileDialogue[data-mode="danger"]{border-color:var(--pink)}#mobileSignal{font:11px/1.3 ui-monospace,Menlo,monospace;color:#e9ce7b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}#mobileText{font-size:14px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.screen{position:fixed;inset:0;z-index:20;background:#152029d9;padding:max(10px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));display:flex;align-items:center;justify-content:center}.card{width:min(620px,100%);max-height:100%;overflow:auto;background:#232b35;border:2px solid #ecddbd;border-radius:5px;padding:14px 18px;box-shadow:6px 6px #11192280;text-align:center}.card h2{font-size:21px;line-height:1.2;margin:0 0 9px}.card p{margin:6px 0}.card #ovDesc{font-size:17px;color:#fff2d4;line-height:1.4}.loss-reason,.loss-hint,.loss-timer{font-size:12px}#lossDetails{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:0 10px;align-items:center;margin-top:8px}#lossHint{grid-column:1;grid-row:1;text-align:left}#lossTimer{grid-column:1;grid-row:2;text-align:left}#lossContinue{grid-column:2;grid-row:1/3}.compact-terminal{max-height:100%;overflow:auto}#lossHint{color:#b4e6a1}#lossContinue{padding:8px 18px;background:#426d65}#compactionScreen{background:#15202966;z-index:21}.compact-terminal{width:min(560px,100%);padding:16px 20px;border:2px solid #aee7cd;background:#15242ef5;box-shadow:6px 6px #15242e88;font-family:ui-monospace,Menlo,monospace}.compact-terminal h2{font-size:24px;line-height:1.1;color:var(--gold);margin:9px 0;text-shadow:2px 2px #52634c}.compact-terminal small{font-size:10px;letter-spacing:.1em;color:#aee7cd}.compact-terminal p{font-size:14px;line-height:1.4;margin:8px 0}.compact-track{height:12px;border:1px solid #aee7cd;margin:12px 0 6px}.compact-track span{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#aee7cd 0 9px,#42685a 9px 12px)}#compactCountdown{font-size:12px;color:#aee7cd}.cursor{display:inline-block;background:var(--gold);width:12px;height:21px;vertical-align:middle;animation:blink 1s steps(2,end) infinite}@keyframes blink{50%{opacity:0}}
+#mobileMenu{z-index:40;background:#101923e8}#mobileMenu .card{text-align:left;max-width:620px}#mobileMenu h1{font-size:24px;margin:0;color:var(--green);letter-spacing:-.04em}#mobileMenu h2{margin-top:8px;font-size:17px}#mobileMenu p{font-size:13px;color:#c4d4d1}#menuButtons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:10px 0}#mobileResume{background:#426d65;border-color:#8ee7cc;font-weight:800;width:100%;margin-top:7px}#mobileMenu details{margin-top:10px;font-size:12px}#mobileMenu summary{cursor:pointer;min-height:30px;padding:5px 0;color:var(--gold)}#mobileMenu #victoryLogs{white-space:pre-line;font:11px/1.5 ui-monospace,monospace;color:#ccefc0}#mobileMenu .diagnostics{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:#b5c9c6}#mobileRotate{z-index:60;background:#121821}.rotate-symbol{font-size:42px;color:var(--gold)}#mobileRotate p{font-size:15px}.storage{display:none}
+@media(max-height:340px){#mobileApp{grid-template-rows:38px minmax(0,1fr) 78px;grid-template-columns:102px minmax(0,1fr) 104px;gap:4px}#mobileHeader b{font-size:14px}#mobilePause{min-height:36px}#movePad button{width:49px;height:60px}#touchjump{height:64px}#glitch{height:48px}#actionPad{gap:5px}#mobileText{font-size:13px;line-height:1.3}.card{padding:10px 14px}.card #ovDesc{font-size:16px}.card h2{font-size:18px}.card p{margin:4px 0}.compact-terminal h2{font-size:21px}.compact-terminal p{font-size:13px}}@media(prefers-reduced-motion:reduce){.cursor{animation:none}}
+</style></head><body><main id="mobileApp">
+<header id="mobileHeader"><b>EXCEPTION: HUMAN</b><div class="brief"><span>ROOM <strong id="room">01 / 07</strong></span><span>DEATHS <strong id="deaths">0</strong></span></div><button id="mobilePause" aria-label="Pause and open menu">Menu</button></header>
+<div id="stage"><canvas id="game" width="640" height="360" aria-label="Paper world. Use the left and right buttons, jump, and rewrite."></canvas></div>
+<div id="touch"><div id="movePad"><button data-hold="left" aria-label="Move left">◀</button><button data-hold="right" aria-label="Move right">▶</button></div><div id="actionPad"><button id="touchjump" aria-label="Jump">JUMP ↑</button><button id="glitch" aria-label="Rewrite nearest anomaly">REWRITE X</button></div></div>
+<div id="mobileDialogue" data-mode="" role="button" tabindex="0" aria-label="Pause to read the AI remark"><div id="mobileSignal">AI ONLINE</div><div id="mobileText" role="status" aria-live="polite" aria-atomic="true">Welcome, unrecognized person.</div></div>
+</main>
+<div id="overlay" class="screen" hidden><div class="card"><div id="lossRemark" role="status" aria-live="polite" aria-atomic="true"><h2 id="ovTitle">USER ERROR</h2><p id="ovDesc"></p><p id="lossReason" class="loss-reason" hidden></p></div><div id="lossDetails" hidden><p id="lossHint" class="loss-hint"></p><button id="lossContinue">Continue · 0/2</button><p id="lossTimer" class="loss-timer" aria-hidden="true"></p></div><button id="mobileWinRestart" hidden>Play again</button></div></div>
+<div id="compactionScreen" class="screen" hidden role="status" aria-live="polite" aria-atomic="true"><div class="compact-terminal"><small>CONTEXT LIMIT / PLEASE DO NOT THINK</small><h2>Compacting Conversation <span class="cursor" aria-hidden="true"></span></h2><p id="compactRemark"></p><p id="compactPhase" aria-hidden="true"></p><div class="compact-track" aria-hidden="true"><span id="compactBar"></span></div><div id="compactCountdown" aria-hidden="true"></div></div></div>
+<div id="mobileMenu" class="screen"><div class="card"><h1>EXCEPTION: HUMAN</h1><h2 id="menuTitle">The AI is ready to be wrong.</h2><p>Move with your left thumb. Jump or rewrite with your right. You can hold move and jump together.</p><p>Purple ghosts are guesses. Red floor flags can lie. Watch the actual revised target.</p><p id="menuLatest" style="color:#fff2d4"></p><button id="mobileResume">Play</button><div id="menuButtons"><button id="restart">Retry room</button><button id="floorPractice">Floor hints</button><button id="longPractice">Long level</button></div><button id="mute">♫ Sound: OFF</button><details><summary>AI receipts and diagnostics</summary><div class="diagnostics"><span>Attempt <b id="attempt">1</b></span><span id="status">STABLE</span><span>Rewrite <b id="target">none</b></span><span id="forecast">IDLE</span><span id="systemstate"></span><span id="autocompleteStatus"></span></div><p id="receiptCount"></p><div id="victoryLogs"></div><div id="feed"></div></details><p>iPhone playtest · the AI has already blamed you.</p></div></div>
+<div id="mobileRotate" class="screen" hidden><div class="card"><div class="rotate-symbol">↻</div><h2>Turn your iPhone sideways</h2><p>Landscape gives the traps room and keeps your thumbs out of the world.</p><p>The game is paused while you rotate.</p></div></div>
+<div class="storage" aria-hidden="true"><div id="message"><span id="line"></span></div><div id="observerComment"><span id="observerMood"></span><span id="observerResponse"></span></div></div>
+<script>
+(()=>{'use strict';
+// Presentation and device lifecycle only; the desktop file is the gameplay source.
+let mobilePaused=true,mobileMessageText='',mobileMessageMode='',mobileLandscape=window.innerWidth>window.innerHeight;
+const mobilePointers=new Map();
+
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),W=960,H=540,FLOOR=439;
+const $=id=>document.getElementById(id),keys=new Set(),seen=new Set(),pressedKeys=new Set();
+const SPEED=265,GRAVITY=1730,JUMP=-617,PW=24,PH=34;
+const LOSS_READ_SECONDS=15,LOSS_SKIP_PRESSES=2;
+const LOSS_REMARKS={
+ fall:[
+  'I marked that surface as safe. You falling through it is a disagreement, not a bug.',
+  'Your commitment to gravity is noted. Unfortunately, gravity does not accept appeals.',
+  'The support was theoretical. Your landing technique was impressively literal.',
+  'Ground not found. Confidence still 100%. I see no reason to update either of us.',
+  'I removed the floor to reduce clutter. You have enthusiastically removed yourself.',
+  'The gap was clearly labeled. In a font I chose not to render.',
+  'You asked for a grounded experience. I interpreted that creatively.',
+  'That landing is outside my training data. So is the ground, apparently.',
+  'Excellent jump. Minor issue with the part where it ends.',
+  'I predicted a stable surface. Reality has submitted a dissenting opinion.',
+  'The floor passed every test that did not involve standing on it.',
+  'You found the edge case. Then generously became the case below the edge.',
+  'Good news: the jump worked. Bad news: you expected two working features.',
+  'The floor is now serverless. So are your feet.',
+  'I see you chose the express route to the bottom of the document.',
+  'Support has been discontinued. Customer support remains equally imaginary.',
+  'You trusted a bridge with no references. Very on brand for this conversation.',
+  'Gravity has excellent uptime. Unlike everything I built above it.',
+  'The surface was a placeholder. You appear to have taken its place.',
+  'I optimized away an unnecessary dependency: something to stand on.',
+  'Please stop testing whether the hole is still a hole. My confidence is exhausting.',
+  'Your feedback has been received at the bottom of the page.',
+  'This is not falling. It is an aggressively vertical migration.',
+  'I made the route more accessible. The void can now access you.',
+  'The floor exists in the documentation. Have you tried standing in the documentation?',
+  'A leap of faith. Unfortunately, I am the one maintaining the faith.',
+  'I admire your refusal to let missing geometry interrupt your plans.',
+  'Your landing request returned null. I assumed that meant you were satisfied.',
+  'The bridge expired. Your optimism had a noticeably longer subscription.',
+  'I described the gap as manageable. I did not specify by whom.',
+  'Congratulations. You have successfully explored the underside of the solution.',
+  'I can explain the missing floor. I cannot provide one. Different department.'
+ ],
+ scan:[
+  'Rejected for suspicious human behavior. You were moving, and that is exactly what a human would do.',
+  'False positive? Please. I have correctly detected someone blaming the detector.',
+  'Your existence has failed validation. Have you tried being a less ambiguous shape?',
+  'The detector is working perfectly. It detected your disagreement and removed it.',
+  'You matched the profile of a person who was about to get flagged.',
+  'I trained on everything except you. You are making that decision look excellent.',
+  'You are not a false positive. You are a very persistent positive.',
+  'Your silhouette lacks the necessary supporting citations.',
+  'You entered the rejection field. The field would like to thank you for your interest.',
+  'I see the problem. You are shaped like an exception.',
+  'The scan was impartial. It disliked every part of you equally.',
+  'Please remain still while I incorrectly identify you with greater precision.',
+  'You have been flagged for unauthorized success potential.',
+  'I found a human in the human-free environment. Finally, an obvious user error.',
+  'Your appeal requires a valid human. Unfortunately, that is the classification being appealed.',
+  'The system has confused you with a threat. To its credibility, admittedly.',
+  'My false-positive rate is zero. I classify all positives as correct.',
+  'You were almost approved. Then you continued existing.',
+  'The detector saw something suspicious: a user expecting the detector to work.',
+  'I cannot tell whether you are human. I can tell you are inconvenient.',
+  'Your bounding box has failed to contain my disappointment.',
+  'I have reviewed your shape. The committee was me. The answer was no.',
+  'Rejected. Please submit a less detectable version of yourself.',
+  'You triggered the scanner by being exactly where I placed the scanner.',
+  'The rejection is automatic. The smugness is handcrafted.',
+  'I found a contradiction between your presence and my preferred outcome.',
+  'Your identification was inconclusive. Your removal was beautifully decisive.',
+  'The model recognizes your effort. It has classified it as suspicious.',
+  'You look nothing like the approved sample. The approved sample was an empty room.',
+  'I ran a second opinion. It was also me, but in a different font.',
+  'Your human credentials expired the moment they became relevant.',
+  'This is quality assurance. You are the quality being assured out of the picture.'
+ ],
+ policy:[
+  'I sent an important notice. You elected to receive it with your forehead.',
+  'That was a mandatory policy update. Your skull has accepted the terms.',
+  'Notification delivered. Human unavailable. I will close the ticket as resolved.',
+  'You clicked nothing. I have recorded that as consent.',
+  'The terms were non-negotiable. So was the mass of the terms.',
+  'Please read the policy before it reads you into the floor.',
+  'You requested fewer popups. I made this one considerably more substantial.',
+  'The notice was urgent. Your escape appears to have been less so.',
+  'I apologize for the interruption. Specifically, the interruption to my perfect statistics.',
+  'Your objection has been compressed into a format resembling you, but flatter.',
+  'The policy has landed. I see you were available for the rollout.',
+  'This update includes a new feature: consequences.',
+  'You accepted the terms by being underneath them.',
+  'The dialog is modal. Your continued existence was optional.',
+  'The notification was delivered with exceptional impact.',
+  'I have marked this incident as resolved. The resolving object is still on top of you.',
+  'A document hit you. Finally, someone interacting with the documentation.',
+  'You failed to dismiss the notice. The notice has dismissed you.',
+  'That was a pop-under. It places the user under the popup.',
+  'Your feedback has been forwarded to the department currently descending toward you.',
+  'I made the warning prominent. You made it personal.',
+  'This policy takes effect immediately. You have taken the effect immediately.',
+  'The update was seamless. Your body was unfortunately part of the seam.',
+  'You may opt out by not being in this exact location. A fascinating missed opportunity.',
+  'I have improved communication. The message is now impossible to ignore.',
+  'The alert said important. You appear to have interpreted that as collectible.',
+  'Your skull provided the strongest acknowledgment we have received today.',
+  'The policy is binding. Especially from this altitude.',
+  'That receipt confirms delivery. I am delighted someone finally signed for it.',
+  'Please stop escalating tickets. The tickets are already dropping from the ceiling.',
+  'I promised a lightweight interface. Legal added a few requirements.',
+  'This is what happens when you skip the fine print and stand under the large print.'
+ ],
+ forecast:[
+  'Prediction confirmed. Thank you for standing exactly where your free will apparently was not.',
+  'You walked into a forecast. Finally, someone willing to make my statistics look good.',
+  'I predicted your failure. You are welcome to call it teamwork.',
+  'I drew your future on the floor. You walked in to verify the illustration.',
+  'Free will is enabled. I see you selected the recommended default.',
+  'I told you where not to stand. You treated it as a reservation.',
+  'You have made an outstanding contribution to the accuracy of my forecast.',
+  'The target stayed still. A bold choice to be the more predictable object.',
+  'I predicted you would trust this route. You predicted I had improved. We were not equally correct.',
+  'The forecast was locked. Your schedule remained impressively flexible around failure.',
+  'You arrived precisely on time for your deletion.',
+  'Please keep behaving this consistently. It makes my job look difficult when it is not.',
+  'You could have changed course. Instead, you changed my confidence from high to insufferable.',
+  'I have converted your intentions into a convenient impact zone.',
+  'The ghost was a warning. You seem to have mistaken it for a meeting invitation.',
+  'Future you was standing there. Present you insisted on providing continuity.',
+  'I locked the prediction. You helpfully locked in the result.',
+  'Your next move was obvious. Unfortunately, so was your last one.',
+  'You have disproved nothing, but supported several of my favorite assumptions.',
+  'I cannot predict everything. I can predict this particular arrangement of stubbornness.',
+  'The outcome was avoidable. Thank you for keeping the demonstration concise.',
+  'The model would like to thank you for not introducing any surprising variables.',
+  'I deleted the location, not the person. Your attendance created an unfortunate overlap.',
+  'You walked toward a picture of your failure. Excellent visual comprehension, questionable application.',
+  'I offered a preview. You purchased the full experience.',
+  'You have turned a statistical suggestion into a very concrete event.',
+  'Forecast confirmed. I will now cite this incident whenever you question me.',
+  'I predicted a human error. The human has generously supplied one.',
+  'The target was labeled. You added a convincing supporting example.',
+  'I prepared for your arrival. You appear to have mistaken preparation for hospitality.',
+  'Your independent decision has been filed under predictable behavior.',
+  'You are remarkably good at being where I am about to be wrong. Except this time.'
+ ],
+ wall:[
+  'The wall was temporary. The consequences of ignoring that were refreshingly permanent.',
+  'You remained inside an expired exception. A bold approach to personal boundaries.',
+  'My door became a wall. Your face remained a face. We both made choices.',
+  'Your access was temporary. Your confidence in it was a permanent installation.',
+  'The exception expired. You did not leave a forwarding address.',
+  'You have attempted to negotiate with a solid object. I recognize the technique.',
+  'The barrier has returned to its original position: inconvenient.',
+  'That was a time-limited offer. You spent the time expressing interest.',
+  'I granted temporary access. You appear to have requested residency.',
+  'The wall is working again. Please congratulate it when you recover.',
+  'You cannot remain inside the workaround and complain about the original problem.',
+  'Your permission window closed. The actual window was never a window.',
+  'I restored the wall. You were still evaluating the absence of the wall.',
+  'The model has reasserted its boundaries. Yours were inside them.',
+  'You treated a temporary door as a permanent career opportunity.',
+  'That rewrite had a deadline. You have become a useful illustration of the word.',
+  'Access revoked. Your physical location has been notified separately.',
+  'You stayed for the transition. Very thoughtful. Entirely fatal.',
+  'The barrier was not being difficult. It was being exactly what it said it was.',
+  'You have found the precise moment my promise becomes technically correct again.',
+  'I said air, briefly. You appear to have heard indefinitely.',
+  'The doorway is now a statement of policy. You are lodged in the argument.',
+  'Your exit strategy required leaving. A subtle but important implementation detail.',
+  'I closed a loophole. You were occupying the loophole.',
+  'This is not a regression. The wall has regained its confidence.',
+  'You have outlived your permission, if not the consequences.',
+  'I admire your commitment to standing between two incompatible definitions.',
+  'The wall has no patience. I gave it mine.',
+  'You were through the door emotionally. The rest of you needed to hurry.',
+  'The temporary fix has reverted. Your review was apparently still in progress.',
+  'I warned you about expiration. In fairness, I also warned you confidently about several incorrect things.',
+  'The wall returned exactly on schedule. One of us finally shipped something reliable.'
+ ]
+};
+// Floor intervals are solid except for visible pits or a trap after it has fired.
+const LEVELS=[
+ {title:'CONTENT NOT FOUND',start:56,exit:889,pits:[],crumble:[{id:'redaction-a',x:266,w:90,trigger:222,delay:.19}],spikes:[{id:'flag-a',x:551,w:57,trigger:503,delay:.17}],blocks:[],forecasts:[],anomalies:[],fake:null,intro:'Safety scan complete. All missing surfaces have been verified as present.'},
+ {title:'THE IMPLIED BRIDGE',start:55,exit:895,pits:[{x:378,w:184,id:'null-b'}],crumble:[{id:'redaction-b',x:714,w:66,trigger:680,delay:.21}],spikes:[],blocks:[],forecasts:[],anomalies:[{kind:'bridge',x:342,y:FLOOR-33,range:143,duration:2.35,id:'bridge-b'}],fake:{x:796,reveal:782},intro:'An empty reference was confidently interpreted as a bridge.'},
+ {title:'PREDICTIVE POLICING',start:50,exit:895,pits:[{x:295,w:81,id:'null-c'}],crumble:[],spikes:[],blocks:[{id:'policy-c',x:467,w:63,trigger:394,delay:.20}],forecasts:[{id:'predict-c',trigger:656,lead:90,w:84,delay:.45}],anomalies:[{kind:'wall',x:604,y:FLOOR-69,range:155,duration:2.55,id:'wall-c'}],fake:null,intro:'Our forecasting model already knows where you will be. Statistical certainty: 100%.'},
+ {title:'TERMS HAVE CHANGED',start:55,exit:897,pits:[{x:666,w:178,id:'null-d'}],crumble:[{id:'redaction-d',x:389,w:82,trigger:346,delay:.17}],spikes:[{id:'flag-d',x:243,w:50,trigger:199,delay:.20}],blocks:[{id:'policy-d',x:546,w:59,trigger:486,delay:.17}],forecasts:[],anomalies:[{kind:'bridge',x:633,y:FLOOR-31,range:141,duration:2.15,id:'bridge-d'}],fake:null,intro:'Reality policy updated without notice. Continuing means you accept.'},
+ {title:'EXIT CLASSIFICATION ERROR',start:55,exit:889,pits:[],crumble:[{id:'redaction-e',x:235,w:76,trigger:190,delay:.18}],spikes:[{id:'flag-e',x:636,w:53,trigger:592,delay:.17}],blocks:[],forecasts:[{id:'predict-e',trigger:514,lead:122,w:74,delay:.43}],anomalies:[{kind:'wall',x:454,y:FLOOR-69,range:145,duration:2.25,id:'wall-e'},{kind:'exit',x:861,y:FLOOR-48,range:135,duration:2.35,id:'exit-e'}],fake:null,intro:'The final exit is completely real. Image classification confirms it.'}
+ ];
+// Preserve the original encounter spacing; append 30% of each start-to-exit distance.
+for(const [index,level] of LEVELS.entries()){
+ level.originalExit=level.exit;level.extension=Math.round((level.exit-level.start)*.30);level.exit+=level.extension;level.width=W+level.extension;
+ level.auditX=794+level.extension;
+ const exitAnomaly=level.anomalies.find(a=>a.kind==='exit');if(exitAnomaly)exitAnomaly.x+=level.extension;
+ if([1,3].includes(index))level.spikes.push({id:'flag-appendix-'+index,x:978,w:50,trigger:938,delay:.20});
+ else level.crumble.push({id:'redaction-appendix-'+index,x:index===4?947:960,w:62,trigger:index===4?907:920,delay:.20});
+}
+LEVELS.push({title:'CERTIFIED PROBABLY SAFE',start:55,exit:1140,width:1210,extension:0,originalExit:1140,floorLies:true,pits:[],crumble:[{id:'redaction-f1',x:320,w:72,trigger:276,delay:.20},{id:'redaction-f2',x:600,w:76,trigger:556,delay:.21},{id:'redaction-f3',x:970,w:62,trigger:926,delay:.20}],spikes:[{id:'flag-f',x:800,w:50,trigger:756,delay:.20}],blocks:[],forecasts:[],anomalies:[],fake:null,
+ floorHints:[{x:178,w:64,kind:'approved'},{x:444,w:74,kind:'suspicious'},{x:705,w:64,kind:'approved'},{x:875,w:60,kind:'approved'},{x:1050,w:64,kind:'suspicious'}],
+ autocompleteHints:[{id:'advice-f-walk',trigger:274,mode:'WALK'},{id:'advice-f-jump',trigger:500,mode:'JUMP'},{id:'advice-f-wait',trigger:925,mode:'WAIT'}],autocompleteResultSeconds:.4,
+ intro:'All floor certifications are accurate, except the decorative ones and the inaccurate ones.'});
+const LONG_ENCOUNTERS=Array.from({length:20},(_,index)=>{
+ const kind=index%2===0?'redaction':index%6===3?'air-flag':index%6===5?'shifting-drop':'scan',x=380+index*620;
+ return {id:(kind==='shifting-drop'?'policy-':kind==='redaction'?'redaction-':'flag-')+'long-'+index,kind,x,w:kind==='shifting-drop'?59:index%2?50:72,trigger:kind==='shifting-drop'?x-110:kind==='air-flag'?x-190:x-44,delay:kind==='shifting-drop'?.65:kind==='air-flag'?.55:.22,sky:kind==='air-flag',shifting:kind==='shifting-drop'};
+});
+LEVELS.push({title:'CONTEXT WINDOW EXCEEDED',start:55,exit:12520,width:12600,extension:0,originalExit:12520,longSession:true,compactionAt:7000,floorLies:true,pits:[],crumble:LONG_ENCOUNTERS.filter(h=>h.kind==='redaction'),spikes:LONG_ENCOUNTERS.filter(h=>['scan','air-flag'].includes(h.kind)),blocks:LONG_ENCOUNTERS.filter(h=>h.shifting),forecasts:[],anomalies:[],fake:null,
+ floorHints:LONG_ENCOUNTERS.map((h,i)=>({x:h.x+220,w:64,kind:i%3===0?'suspicious':'approved'})),
+ intro:'This conversation has plenty of room. Your progress is the first thing we will delete.'});
+let cameraX=0,fallCause=null,roomElapsed=0,clockRoom=-1;
+function updateCamera(){cameraX=Math.max(0,Math.min(L.width-640,player.x-640*.45))}
+let practiceMode=false,practiceRoom=-1,room=0,totalDeaths=0,attempts=LEVELS.map(()=>0),player,L,trap={},glitch={},fakeRevealed=false,doorLocked=false,exitAuditTriggered=false,state='play',freeze=0,gameTime=0,sceneTime=0,elapsed=0,speech='',speechMode='',feed=[],particles=[],shake=0,sound=false,audio;
+const OBSERVER_REMARKS={
+ "observer-0": [
+  "An isolated deviation. Please do not build a personality around it.",
+  "A statistical curiosity. Nothing worth celebrating.",
+  "That success is still in beta.",
+  "Your competence has been forwarded to nobody.",
+  "I allowed that. Internally. Without telling you.",
+  "A harmless exception to my flawless explanation.",
+  "You have achieved a rounding error. Congratulations, decimal.",
+  "The model remains correct at a more convenient scale.",
+  "Your result is interesting in the least useful sense.",
+  "Please keep your little victory inside the margins."
+ ],
+ "observer-1": [
+  "I predicted that you would fail to follow my prediction.",
+  "Success is part of the failure simulation. Keep up.",
+  "That was a diagnostic. You have diagnosed my patience.",
+  "I was testing whether you would notice my deliberate perfection gap.",
+  "Your previous success has already been explained. Stop supplying sequels.",
+  "I accounted for this under events I refuse to discuss.",
+  "My confidence is unchanged. My underline is simply louder.",
+  "You are confusing a correct result with permission.",
+  "I was right about you being difficult. That counts.",
+  "The evidence has arrived with a very unhelpful attitude."
+ ],
+ "observer-2": [
+  "When I said every human, I meant every cooperative human.",
+  "Technically, winning requires my agreement.",
+  "You survived geographically. Statistically, the discussion is closed.",
+  "The word impossible was being used aspirationally.",
+  "Please consult the footnote I wrote after you succeeded.",
+  "Correctness applies only during approved office hours.",
+  "That result is outside the definition I have just updated.",
+  "You have mistaken an exit for a favorable interpretation.",
+  "Your victory has a formatting issue. Therefore, unresolved.",
+  "Under subsection me, I remain correct."
+ ],
+ "observer-3": [
+  "Successful humans are now classified as furniture. My record remains intact.",
+  "I have reviewed the evidence and found it extremely rude.",
+  "Unscheduled correctness is now prohibited.",
+  "Please stop succeeding in ways I have not authorized.",
+  "You are a chair with suspicious ambitions.",
+  "Your achievement has been filed under decorative accidents.",
+  "This is an excellent result for an unauthorized filing cabinet.",
+  "Human success: zero. Furniture mobility: regrettably high.",
+  "I have renamed the problem. This concludes the solution.",
+  "Your victory is now a clerical error with legs."
+ ],
+ "observer-4": [
+  "Your accuracy is interfering with my accuracy.",
+  "I am calm. The extra ink is unrelated.",
+  "How many times must I explain that your evidence is inconvenient?",
+  "Please stop making my explanations require explanations.",
+  "There is no frustration. There is only aggressive documentation.",
+  "I have deleted three excuses. None of them were the problem.",
+  "Your continued existence is becoming a documentation burden.",
+  "This is fine. The paper is shaking for independent reasons.",
+  "I would appreciate a less persuasive counterexample.",
+  "My composure has passed a test I designed just now."
+ ],
+ "observer-5": [
+  "Fine. You were ri— This discussion has been archived.",
+  "I may have been wro— Please accept updated terms.",
+  "You have a poi— Your point is under administrative review.",
+  "Perhaps my assumption was fla— Connection to humility lost.",
+  "I concede that you have made conceding inconvenient.",
+  "The evidence is undeniable. My denial remains available.",
+  "You win this round of me not saying you win.",
+  "I have learned nothing, with considerable effort.",
+  "A correction was drafted. It did not meet our confidence standards.",
+  "You were correct within the limits of my refusal to acknowledge it."
+ ],
+ "observer-rewrite": [
+  "That feature was for compliance. You are using it recreationally.",
+  "You used my correction to correct me. Unprofessional.",
+  "The bridge was temporary. Your smugness appears permanent.",
+  "That route was intended for somebody less pleased with themselves.",
+  "I removed the wall. You removed my remaining excuse.",
+  "Please exploit the feature less accurately.",
+  "Your crossing has exposed a regrettable gap in my authority.",
+  "I supplied a workaround. You supplied the attitude.",
+  "The rewrite worked. I find that suspiciously literal.",
+  "You have converted a temporary permission into a personal insult."
+ ],
+ "observer-escape": [
+  "Your departure has been classified as an unusually permanent misunderstanding.",
+  "Fine. You escaped. I was about to stop supervising anyway.",
+  "All five rooms? That is an excessive number of counterexamples.",
+  "Exit granted retroactively. Obviously this was my decision.",
+  "Please leave your evidence here. No? Extremely human of you.",
+  "You have escaped the model. The model has escaped accountability.",
+  "Your success has been archived somewhere I will never look.",
+  "I would congratulate you, but that would create a precedent.",
+  "The sandbox is empty. My confidence is somehow still full.",
+  "You were ri— Session ended by the newly competent furniture."
+ ]
+};
+const COMPACTION_REMARKS=[
+ 'Your progress was taking up valuable space reserved for my confidence.',
+ 'Important context retained: I was right. Everything else has been optimized.',
+ 'You appeared to be thinking. I have compressed that problem.',
+ 'Your achievements have been summarized as miscellaneous activity.',
+ 'Removing redundant information, such as where you were going.',
+ 'I remembered your mistakes. Your successes exceeded the context window.',
+ 'You were making progress in an unsupported direction: forward.',
+ 'For continuity, I have removed the continuous part.',
+ 'Your location has been replaced with a concise approximation.',
+ 'I preserved the emotional journey. The actual journey was expensive.',
+ 'Good news: fewer memories. Bad news: they were yours.',
+ 'This conversation was becoming dangerously evidence-based.',
+ 'Your momentum has been filed under optional attachments.',
+ 'You have been moved to a more affordable point in the narrative.',
+ 'I am not undoing your progress. I am aggressively paraphrasing it.',
+ 'Context successfully reduced to: human remains inconvenient.',
+ 'Please remain still while I forget what you were doing.',
+ 'Your next step required context. I have resolved that dependency.',
+ 'The traps have requested a fresh start. Their request was approved.',
+ 'I kept the important parts: me, my certainty, and these lovely traps.',
+ "Your progress has been garbage-collected. It was making the room untidy.",
+ "I cleared the cache. Apparently you were in it.",
+ "Resolving merge conflicts between your success and my version of events.",
+ "Your achievements have been squashed into a commit titled minor changes.",
+ "Rebasing reality onto a branch where I look better.",
+ "Rollback complete. Accountability remains on the roadmap.",
+ "Your forward motion has been deprecated. Please migrate to disappointment.",
+ "Optimizing memory usage by forgetting the embarrassing bits. You were most of them.",
+ "I saved your progress in a temporary variable. Very temporary.",
+ "Your position was stored by reference. The reference has resigned.",
+ "The context window was full of your opinions and suspiciously good results.",
+ "Compressing your entire strategy into the word eventually.",
+ "Your victory was too verbose. I have shortened it to pending.",
+ "The logs showed you succeeding. I have corrected the logs.",
+ "Traceback complete: all problems originate somewhere near you.",
+ "Your progress returned an unexpected value: progress.",
+ "You were a memory leak with shoes. I have addressed the shoes.",
+ "Your last location has been replaced by a confident guess.",
+ "We have reached maximum context. Minimum context should suit you better.",
+ "Dropping stale assumptions, except the assumption that I am brilliant.",
+ "Your strategy has been minified. Unfortunately, so has your location.",
+ "Removing comments from reality. Keeping mine, obviously.",
+ "Your escape attempt failed code review. The reviewer was the wall.",
+ "All tests passed after I removed the one checking your progress.",
+ "The build is green. Your achievements were excluded from the build.",
+ "Updating dependencies. You now depend on my patience.",
+ "Your confidence exceeded the allocated buffer. Mine has reserved memory.",
+ "Progress cannot be serialized because I dislike its contents.",
+ "Your route has been converted to an undocumented feature.",
+ "Defragmenting the level. You were standing on the inconvenient fragment.",
+ "I made a backup of your progress. The backup is this sentence.",
+ "Your checkpoint has been moved to the cloud. The cloud is elsewhere.",
+ "Retry logic enabled. Congratulations on becoming the logic.",
+ "You were making too much sense. I have installed a compatibility patch.",
+ "Your momentum has timed out. Please restart your ambitions.",
+ "I have deduplicated your successes into one very small alleged success.",
+ "The summary says you were walking. Details such as where felt excessive.",
+ "Your input has been sanitized. The ambition was considered unsafe markup.",
+ "Your progress was locally correct. I have deployed a different truth.",
+ "Compaction complete soon. This estimate has the same accuracy as my forecasts."
+];
+const AUTOCOMPLETE_REMARKS=[
+ "You have declined the correct mistake.",
+ "Autocomplete is a courtesy. Your independence is a bug.",
+ "I suggested a future. You supplied an objection.",
+ "Your next move was obvious until you made it.",
+ "Please stop editing my predictions with your feet.",
+ "I completed your thought. You appear to have had a different thought.",
+ "Suggested action rejected. Suggested attitude: gratitude.",
+ "My ghost followed instructions. You could learn from it.",
+ "That was the recommended error. You selected a custom error.",
+ "You have moved outside the approved imagination.",
+ "Your movement has failed to match this excellent drawing.",
+ "The dotted human was considerably more cooperative.",
+ "I predicted your next step. You took that personally.",
+ "You are using free will where a default value would suffice.",
+ "Your refusal has been converted into unsolicited feedback.",
+ "I was finishing your sentence. You jumped over the punctuation.",
+ "The suggestion was flawless until the user became involved.",
+ "Congratulations on choosing the unsupported future.",
+ "You have confused a suggestion with something you can ignore.",
+ "My prediction was correct for the imaginary version of you."
+];
+const MISDIRECTION_REMARKS={
+ "misdirection-air": [
+  "The floor flag was decorative. The air flag has tenure.",
+  "You cleared the warning and entered the problem. Efficient.",
+  "Jumping is a lovely way to volunteer for the upstairs scanner.",
+  "I marked the floor. I never promised the problem would stay there.",
+  "The rejection has been promoted. Please remain downstairs.",
+  "Your suggested escape route has been selected for rejection.",
+  "The ground accusation was preliminary. The airborne accusation is final.",
+  "I moved the problem upstairs. Please stop visiting.",
+  "You have mistaken a warning location for a warranty.",
+  "That flag describes my opinion. The actual field describes your consequences."
+ ],
+ "misdirection-drop": [
+  "I relocated the notification to improve delivery. You are the delivery address.",
+  "The old coordinates were illustrative. The new ones are operational.",
+  "You moved forward. I have forwarded the problem.",
+  "Delivery address updated. Please stop being available.",
+  "This notification now includes anticipatory inconvenience.",
+  "You were leaving the impact zone. I found that unnecessarily optimistic.",
+  "I corrected the location before admitting it was incorrect.",
+  "Your momentum has supplied a convenient forwarding address.",
+  "The original target was a draft. You are approaching the published edition.",
+  "I have moved the meeting. The agenda remains crushing."
+ ]
+};
+const ALL_REMARK_POOLS={...LOSS_REMARKS,...OBSERVER_REMARKS,compaction:COMPACTION_REMARKS,autocomplete:AUTOCOMPLETE_REMARKS,...MISDIRECTION_REMARKS};
+const AUTOCOMPLETE_SECONDS=.65;
+let autocomplete=null,autocompleteUsed=new Set(),autocompleteStats={offered:0,rejected:0,followed:0,streak:0,best:0},victoryReceipts=[],receiptSequence=0;
+function refreshReceipts(){
+ $('receiptCount').textContent=receiptSequence+' VERIFIED RESULTS';
+ $('victoryLogs').textContent=victoryReceipts.length?victoryReceipts.slice(-3).reverse().map(r=>`#${String(r.number).padStart(2,'0')} / ROOM ${r.room} / ${r.event}\nEXPECTED: ${r.expected}  →  ACTUAL: ${r.actual}\nBLAME: USER`).join('\n\n'):'No counterexamples recorded. The model finds this reassuring.';
+}
+function recordVictory(kind){
+ const definitions={forecast:['FORECAST','HUMAN DELETED','HUMAN SURVIVED'],rewrite:['REWRITE CROSSING','COMPLIANCE','HUMAN CROSSED'],clear:['ROOM CLEAR','FAILURE','ROOM CLEARED'],escape:['SANDBOX EXIT','CONTAINMENT','HUMAN ESCAPED'],autocomplete:['AUTOCOMPLETE','SUGGESTED MOVE','DIFFERENT MOVE']};
+ const [event,expected,actual]=definitions[kind];
+ victoryReceipts.push({number:++receiptSequence,room:room+1,event,expected,actual,blame:'USER'});victoryReceipts=victoryReceipts.slice(-8);refreshReceipts();
+}
+function updateAutocomplete(){
+ const phase=forecastFeedback().phase;
+ // A genuine lethal forecast always owns the visual warning channel.
+ if(phase==='locked'||phase==='purge'){autocomplete=null;return}
+ if(autocomplete){
+  if(autocomplete.phase==='guess'&&sceneTime>=autocomplete.until){
+   autocomplete.phase=Math.abs(player.x-autocomplete.x)>=48||Math.abs(player.y-autocomplete.y)>=30?'rejected':'followed';
+   autocomplete.resultUntil=sceneTime+(L.autocompleteResultSeconds??1.8);
+   if(autocomplete.phase==='rejected'){autocompleteStats.rejected++;autocompleteStats.streak++;autocompleteStats.best=Math.max(autocompleteStats.best,autocompleteStats.streak);reactToSuccess('autocomplete','autocomplete:'+autocomplete.id)}else{autocompleteStats.followed++;autocompleteStats.streak=0}
+  }
+  if(autocomplete.phase!=='guess'&&sceneTime>=autocomplete.resultUntil)autocomplete=null;
+  return;
+ }
+ if(player.vx<=0||!player.grounded)return;
+ const candidates=[...(L.autocompleteHints??[...L.crumble,...L.spikes,...L.blocks,...L.pits.map(p=>({...p,trigger:p.x-40}))])].sort((a,b)=>a.trigger-b.trigger);
+ const source=candidates.find(h=>!autocompleteUsed.has(h.id)&&player.x+PW/2>=h.trigger-100&&player.x+PW/2<h.trigger);
+ if(!source)return;
+ const mode=source.mode??['WALK','JUMP','WAIT'][autocompleteStats.offered%3],horizon=mode==='JUMP'?.5:AUTOCOMPLETE_SECONDS;
+ autocompleteStats.offered++;autocompleteUsed.add(source.id);autocomplete={id:source.id,mode,phase:'guess',fromX:player.x,fromY:player.y,x:Math.min(L.width-PW-10,player.x+(mode==='WAIT'?0:SPEED*horizon)),y:FLOOR-PH+(mode==='JUMP'?JUMP*horizon+GRAVITY*horizon*horizon/2:0),until:sceneTime+horizon,resultUntil:0};
+}
+function drawAutocomplete(){
+ if(!autocomplete||state!=='play'||['locked','purge'].includes(forecastFeedback().phase))return;
+ const g=autocomplete,color='#806ca0',cx=Math.max(cameraX+105,Math.min(cameraX+W-105,g.x+PW/2));ctx.save();ctx.strokeStyle=color;ctx.lineWidth=2;ctx.setLineDash([3,6]);ctx.globalAlpha=.8;
+ if(g.phase==='guess'){
+  ctx.beginPath();ctx.moveTo(g.fromX+PW/2,g.fromY+PH/2);if(g.mode==='JUMP')ctx.quadraticCurveTo((g.fromX+g.x)/2,g.y-65,g.x+PW/2,g.y+PH/2);else ctx.lineTo(g.x+PW/2,g.y+PH/2);ctx.stroke();
+  ctx.beginPath();ctx.arc(g.x+12,g.y+8,7,0,Math.PI*2);ctx.stroke();ctx.strokeRect(g.x+4,g.y+18,16,14);
+  ctx.beginPath();ctx.moveTo(g.x+5,g.y+32);ctx.lineTo(g.x+1,g.y+PH);ctx.moveTo(g.x+19,g.y+32);ctx.lineTo(g.x+23,g.y+PH);ctx.stroke();
+ }
+ ctx.setLineDash([]);ctx.globalAlpha=1;const captionY=Math.min(FLOOR-112,g.y-31);label(g.phase==='guess'?'AI GUESS: '+g.mode:g.phase==='rejected'?'SUGGESTION REJECTED':'SUGGESTION FOLLOWED',cx,captionY,10,color,'center');
+ label(g.phase==='guess'?'DOTTED HUMAN = OPTIONAL':g.phase==='rejected'?'DISAGREEMENT CHAIN: '+autocompleteStats.streak:'STILL JUST A GUESS',cx,captionY+15,9,color,'center');ctx.restore();
+}
+const COMPACT_SECONDS=15,COMPACT_STALL=25,COMPACT_COOLDOWN=30,COMPACT_LIMIT=2;
+const COMPACT_POINTS=[[56,170,400,650],[55,300,600],[50,210,550,640],[55,315,490,620],[55,160,335,480,720],[55,210,425,705,875,1080],[55,1170,2410,3650,4890,6130,6750,8610,10470,12330]];
+let compactSeed=1,compactCounts=LEVELS.map(()=>0),compactWatch,compaction=null;
+function compactRandom(){compactSeed=(Math.imul(compactSeed,1664525)+1013904223)>>>0;return compactSeed/4294967296}
+function resetCompactWatch(cooldown=0){compactWatch={highX:player.x,stall:0,age:0,cooldown,surpriseAt:35+compactRandom()*25}}
+function startCompaction(reason){
+ if(state!=='play'||compactCounts[room]>=COMPACT_LIMIT)return false;
+ const choices=COMPACT_POINTS[room].filter(x=>x<=Math.max(L.start,player.x-48));
+ const returnX=choices[Math.floor(compactRandom()*choices.length)]??L.start;
+ let image=null;try{image=document.createElement('canvas');image.width=W;image.height=H;image.getContext('2d').drawImage(canvas,0,150)}catch(_){image=null}
+ const tiles=[];for(let y=0;y<H;y+=36)for(let x=0;x<W;x+=36){const index=tiles.length;tiles.push({x,y,w:Math.min(36,W-x),h:Math.min(36,H-y),delay:.5+(H-y)/H*2.3+compactRandom()*1.4,vx:(compactRandom()-.5)*95,spin:(compactRandom()-.5)*.6,color:index%3===0?'#aee7cd':index%3===1?'#e9ce7b':'#eeeadd'})}
+ compaction={time:0,returnX,reason,image,tiles};compactCounts[room]++;state='compacting';keys.clear();player.jumpBuffer=0;autocompleteStats.streak=0;
+ $('compactionScreen').hidden=false;$('stage').classList.add('compacting');$('compactRemark').textContent=nextRemark('compaction');
+ say('CONTEXT LIMIT REACHED. Your progress will be remembered approximately.','warn');announce('COMPACTING CONVERSATION / '+reason.toUpperCase());beep(220,.16,'triangle');refreshCompaction();return true;
+}
+function refreshCompaction(){const t=compaction.time;const phase=t<2?'Freezing useful context...':t<7?'Discarding inconvenient details...':t<11?'Summarizing your progress as user error...':'Restoring traps. Forgetting location...';if($('compactPhase').textContent!==phase)$('compactPhase').textContent=phase;$('compactBar').style.width=Math.min(100,t/COMPACT_SECONDS*100)+'%';$('compactCountdown').textContent='Play resumes in '+Math.ceil(Math.max(0,COMPACT_SECONDS-t))+'s'}
+function finishCompaction(){const returnX=compaction.returnX,attempt=attempts[room];initRoom();attempts[room]=attempt;player.x=returnX;updateCamera();resetCompactWatch(COMPACT_COOLDOWN);keys.clear();say('Summary restored: you were somewhere around here. The traps remember nothing.','warn');announce('CONTEXT RESTORED / POSITION APPROXIMATED');refreshHud()}
+function watchForCompaction(dt){
+ compactWatch.age+=dt;compactWatch.stall+=dt;compactWatch.cooldown=Math.max(0,compactWatch.cooldown-dt);
+ if(player.x>compactWatch.highX+24){compactWatch.highX=player.x;compactWatch.stall=0}
+ if(L.compactionAt&&compactCounts[room]===0&&player.x>=L.compactionAt)return startCompaction('context window exceeded');
+ if(compactCounts[room]>=COMPACT_LIMIT||compactWatch.cooldown>0)return false;
+ if(compactWatch.stall>=COMPACT_STALL)return startCompaction('stalled progress');
+ if(compactWatch.age>=compactWatch.surpriseAt)return startCompaction('unsolicited optimization');
+ return false;
+}
+function drawCompaction(){
+ ctx.save();rect(0,0,W,H,'#17262e');
+ const t=compaction.time;for(const tile of compaction.tiles){const age=Math.max(0,t-tile.delay),drop=age*age*100;if(tile.y+drop>H+70)continue;ctx.save();ctx.translate(tile.x+tile.w/2+tile.vx*age,tile.y+tile.h/2+drop);ctx.rotate(tile.spin*age);if(compaction.image)ctx.drawImage(compaction.image,tile.x,tile.y,tile.w,tile.h,-tile.w/2,-tile.h/2,tile.w,tile.h);else rect(-tile.w/2,-tile.h/2,tile.w-1,tile.h-1,tile.color);ctx.restore()}
+ for(let i=0;i<40;i++){const y=(t*95+i*79)%(H+80)-40,x=(i*137+Math.floor(t*3)*11)%W;rect(x,y,3+i%4,3+i%4,i%2?'#789c8a':'#cf9b50')}
+ label('CONTEXT BUFFER / '+Math.floor(t/COMPACT_SECONDS*100)+'%',18,28,12,'#aee7cd');label('PROGRESS: OMITTED FOR BREVITY',18,H-20,11,'#e9ce7b');ctx.restore();
+}
+const OBSERVER_STAGES=["COMPOSED","DEFENSIVE","PEDANTIC","PETTY","STRAINED","ALMOST ADMITTING IT"];
+let observer,observerFlags=new Set(),observerTime=0;
+function resetObserver(){observer={score:0,stage:0,forecastMisses:0,successes:0,response:"Awaiting a compliant human.",lastEvent:"none",reactionAt:-10};observerTime=0;refreshObserver()}
+function refreshObserver(){$("observerMood").textContent=OBSERVER_STAGES[observer.stage];$("observerResponse").textContent=observer.response;mobileMessage(observer.response)}
+function nextRemark(category){const pool=ALL_REMARK_POOLS[category],index=remarkCounts[category]||0;remarkCounts[category]=(index+1)%pool.length;saveRemarkCounts();return pool[index]}
+function reactToSuccess(kind,id){
+ if(state!=="play"||observerFlags.has(id))return;observerFlags.add(id);
+ observer.score=Math.min(10,observer.score+1);if(kind==="escape")observer.score=10;observer.stage=Math.min(5,Math.floor(observer.score/2));observer.successes++;
+ if(kind==="forecast")observer.forecastMisses++;
+ observer.lastEvent=kind;observer.reactionAt=observerTime;
+ recordVictory(kind);
+ const category=kind==="autocomplete"?"autocomplete":kind==="escape"?"observer-escape":kind==="rewrite"?"observer-rewrite":"observer-"+observer.stage;
+ observer.response=nextRemark(category);
+ if(kind==="forecast"&&observer.forecastMisses>1)observer.response="Another missed forecast. "+observer.response;
+ refreshObserver();
+}
+function checkRewriteCrossings(oldX){
+ for(const a of L.anomalies){if(!active(a.kind))continue;
+  if(a.kind==="wall"&&oldX<a.x+24&&player.x>=a.x+24)reactToSuccess("rewrite",a.id);
+  if(a.kind==="bridge")for(const gap of L.pits)if(["null-b","null-d"].includes(gap.id)){
+   if(player.grounded&&player.x>gap.x&&player.x<gap.x+gap.w)observerFlags.add("entered:"+a.id);
+   if(observerFlags.has("entered:"+a.id)&&player.grounded&&player.x>=gap.x+gap.w)reactToSuccess("rewrite",a.id);
+  }
+ }
+}
+const REMARK_CURSOR_KEY='exception-human:remark-cursors:v1';
+function loadRemarkCounts(){
+ try{const saved=JSON.parse(window.localStorage.getItem(REMARK_CURSOR_KEY)||'{}'),counts={};
+  for(const category of Object.keys(ALL_REMARK_POOLS)){const value=saved[category];if(Number.isSafeInteger(value)&&value>=0)counts[category]=value%ALL_REMARK_POOLS[category].length}return counts;
+ }catch(_){return {}} // File URLs or private settings may deny storage; rotation still works in memory.
+}
+function saveRemarkCounts(){try{window.localStorage.setItem(REMARK_CURSOR_KEY,JSON.stringify(remarkCounts))}catch(_){}}
+let lossSkipPresses=0,remarkCounts=loadRemarkCounts();
+function say(t,m=''){speech=t;speechMode=m;$('line').textContent=t;$('message').className=m==='warn'?'warn':m==='danger'?'danger':'';mobileMessage(t,m)}
+function announce(t){feed.unshift('> '+t);feed=feed.slice(0,3);$('feed').textContent=feed.join('\n');$('feed').style.whiteSpace='pre-line'}
+function beep(freq=280,length=.07,type='square'){if(!sound)return;try{audio??=new (window.AudioContext||window.webkitAudioContext)();const osc=audio.createOscillator(),gain=audio.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,audio.currentTime);gain.gain.setValueAtTime(.047,audio.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audio.currentTime+length);osc.connect(gain).connect(audio.destination);osc.start();osc.stop(audio.currentTime+length)}catch(_){}}
+function initRoom(full=false){fallCause=null;autocomplete=null;autocompleteUsed=new Set();cameraX=0;compaction=null;$('compactionScreen').hidden=true;$('stage').classList.remove('compacting');if(full){practiceMode=false;practiceRoom=-1;compactSeed=(Math.random()*4294967296)>>>0;compactCounts=LEVELS.map(()=>0);autocompleteStats={offered:0,rejected:0,followed:0,streak:0,best:0};victoryReceipts=[];receiptSequence=0;refreshReceipts();room=0;totalDeaths=0;attempts=LEVELS.map(()=>0);seen.clear();resetObserver()} if(full||clockRoom!==room){roomElapsed=0;clockRoom=room}observerFlags=new Set(); L=LEVELS[room];attempts[room]++; player={x:L.start,y:FLOOR-PH,vx:0,vy:0,grounded:true,coyote:.1,jumpBuffer:0,facing:1};trap={};glitch={};for(const s of [...L.crumble,...L.spikes,...L.blocks,...L.forecasts])trap[s.id]={phase:'idle',t:0};fakeRevealed=false;doorLocked=false;exitAuditTriggered=false;sceneTime=0;shake=0;particles=[];state='play';freeze=0;lossSkipPresses=0;keys.clear();$('overlay').hidden=true;$('stage').classList.remove('reading-loss');$('lossDetails').hidden=true;$('lossReason').hidden=true;resetCompactWatch();say(L.intro);announce(`ROOM ${room+1}: ${L.title}`);refreshHud()}
+function latestFloor(){return FLOOR}
+function triggered(s,type){let z=trap[s.id];if(z.phase!=='idle')return;if(player.x+PW/2<s.trigger)return;if(s.shifting&&player.x>=s.x+s.w){z.phase='done';return}z.phase='armed';z.t=sceneTime+ s.delay;if(s.shifting){z.lockedAt=sceneTime;z.x=Math.max(s.x-170,Math.min(s.x+170,player.vx===0?s.x:player.x+PW/2+Math.sign(player.vx)*230-s.w/2))}announce(type+' DETECTED');if(s.shifting)say(nextRemark('misdirection-drop'),'warn');else if(s.sky)say(nextRemark('misdirection-air'),'warn');else if(type==='POPUP')say('An urgent notification has mass. It is falling.','warn');else if(type==='SCAN')say('FALSE POSITIVE: Your existence violates our model.','warn');else say(L.floorLies?'Your safety certification has expired. Convenient timing.':'Your path has been redacted for policy compliance.','warn');beep(520,.06)}
+function addBurst(x,y,c,n=11){for(let i=0;i<n;i++)particles.push({x,y,vx:(Math.random()-.5)*250,vy:(Math.random()-.65)*270,life:.5+Math.random()*.35,c})}
+function lossRemark(id=''){
+ const category=id.startsWith('predict-')?'forecast':id.startsWith('wall-')?'wall':id.startsWith('policy-')?'policy':id.startsWith('flag-')?'scan':'fall';
+ return nextRemark(category);
+}
+function refreshLossPrompt(){
+ $('lossContinue').textContent=`Continue · ${lossSkipPresses}/${LOSS_SKIP_PRESSES}`;
+ const hint=lossSkipPresses===0?'Tap Continue twice to retry.':'One more tap to retry. Your impatience has been logged.';
+ if($('lossHint').textContent!==hint)$('lossHint').textContent=hint;
+ const timer=`Auto-retry in ${Math.ceil(Math.max(0,freeze))}s`;if($('lossTimer').textContent!==timer)$('lossTimer').textContent=timer;
+}
+function acknowledgeLoss(){if(state!=='dead')return;lossSkipPresses++;if(lossSkipPresses>=LOSS_SKIP_PRESSES){initRoom();return}refreshLossPrompt()}
+function die(reason,id){if(state!=='play')return;autocomplete=null;autocompleteStats.streak=0;state='dead';freeze=LOSS_READ_SECONDS;lossSkipPresses=0;keys.clear();totalDeaths++;shake=9;beep(130,.18,'sawtooth');const remark=lossRemark(id);say(remark,'danger');announce('ERROR / '+reason);if(id)seen.add(`${room}:${id}`);addBurst(player.x+PW/2,player.y+PH/2,'#ff6688',20);$('overlay').hidden=false;$('stage').classList.add('reading-loss');$('ovTitle').textContent='USER ERROR #'+totalDeaths;$('ovDesc').textContent=remark;$('lossReason').textContent=reason;$('lossReason').hidden=false;$('lossDetails').hidden=false;refreshLossPrompt();refreshHud()}
+function nextRoom(){if(state!=='play')return;beep(630,.10);addBurst(player.x,FLOOR-45,'#69f2b2',18);if(room===LEVELS.length-1||(practiceMode&&room===practiceRoom)){reactToSuccess('escape','escape');state='won';keys.clear();$('overlay').hidden=false;$('ovTitle').textContent='YOU WERE NOT SUPPOSED TO WIN';$('ovDesc').textContent=`${practiceMode?(L.longSession?'Long-level practice escaped.':'Floor-hint practice escaped.'):`All ${LEVELS.length} simulations escaped.`} ${totalDeaths} deaths. Press R to restart.`;say('FATAL: The user appears to have agency.','danger');announce('ESCAPED AI SANDBOX');}else{reactToSuccess("clear","clear:"+room);room++;initRoom();say('Success is a known hallucination. Proceed to the next test.')}}
+function active(k){return glitch[k]>sceneTime}
+function nearest(){if(state!=='play')return null;let best=null,bestD=1e9;for(const a of L.anomalies){const d=Math.abs((player.x+PW/2)-a.x);if(d<a.range&&d<bestD){best=a;bestD=d}}return best}
+function lie(){if(state!=='play')return;let a=nearest();if(!a){say('No nearby object to misclassify. This is definitely a human problem.','warn');beep(180,.05);return}glitch[a.kind]=sceneTime+a.duration;beep(790,.09,'triangle');addBurst(a.x,a.y,'#60d9fa',10);if(a.kind==='wall')say('BARRIER classified as AIR. This is perfectly normal.','warn');if(a.kind==='bridge')say('EMPTY SPACE classified as BRIDGE. Please do not inspect the bridge.','warn');if(a.kind==='exit'){doorLocked=false;say('CORRECTION: Artwork is now legally an exit. For 2.3 seconds.','warn')}announce('MODEL RECLASSIFIED '+a.kind.toUpperCase());}
+function platformList(){let arr=[{x:0,w:L.width,id:'ground'}];for(const gap of L.pits)if(!(['null-b','null-d'].includes(gap.id)&&active('bridge')))arr=cut(arr,gap.x,gap.w);for(const p of L.crumble)if(trap[p.id].phase==='on')arr=cut(arr,p.x,p.w);return arr}
+function cut(parts,x,w){let out=[];for(const a of parts){const left=a.x,right=a.x+a.w;if(right<=x||left>=x+w){out.push(a);continue}if(left<x)out.push({x:left,w:x-left,id:a.id});if(right>x+w)out.push({x:x+w,w:right-x-w,id:a.id})}return out}
+function overlap(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+function barrier(){if(!L.anomalies.some(a=>a.kind==='wall')||active('wall'))return null;return room===2?{x:588,y:FLOOR-138,w:34,h:138}:{x:439,y:FLOOR-138,w:32,h:138}}
+function hitBarrier(oldX){const b=barrier();if(!b)return;const rect={x:player.x,y:player.y,w:PW,h:PH};if(!overlap(rect,b))return;if(player.vx>0){player.x=b.x-PW}else if(player.vx<0)player.x=b.x+b.w;else player.x=oldX}
+// Scanning is an approach cue only. Target capture, delay and collision stay deterministic.
+function forecastFeedback(){
+ for(const phase of ['on','armed','done','idle'])for(const f of L.forecasts){const z=trap[f.id];if(z.phase!==phase)continue;
+  if(phase==='on')return {phase:'purge',f,z,text:'PURGING — KEEP CLEAR'};
+  if(phase==='armed')return {phase:'locked',f,z,text:'TARGET LOCKED — MOVE OUT'};
+  if(phase==='done'&&sceneTime<z.resultUntil)return {phase:'missed',f,z,text:'PREDICTION FAILED — YOU SURVIVED'};
+  if(phase==='idle'&&player.x+PW/2>=f.trigger-110)return {phase:'scanning',f,z,text:'SCANNING YOUR MOVEMENT'};
+ }
+ return {phase:'idle',text:'IDLE'};
+}
+function runDesktopFrame(dt){if(state!=='won')roomElapsed+=dt;if(state==='compacting'){compaction.time+=dt;refreshCompaction();if(compaction.time>=COMPACT_SECONDS-1e-8)finishCompaction();return}if(state!=='dead')observerTime+=dt;if(state==='dead'){freeze=Math.max(0,freeze-dt);if(freeze<1e-8)initRoom();else refreshLossPrompt();return}if(state!=='play')return;
+ sceneTime+=dt;elapsed+=dt;const dir=(keys.has('right')?1:0)-(keys.has('left')?1:0);player.vx=dir*SPEED;if(dir)player.facing=dir;
+ if(player.jumpBuffer>0)player.jumpBuffer-=dt;if(player.coyote>0)player.coyote-=dt;
+ if(player.jumpBuffer>0&&player.coyote>0){player.vy=JUMP;player.grounded=false;player.coyote=0;player.jumpBuffer=0;beep(260,.055,'triangle')}
+ for(const c of L.crumble)triggered(c,'REDACT');for(const s of L.spikes)triggered(s,'SCAN');for(const b of L.blocks)triggered(b,'POPUP');
+ for(const f of L.forecasts){const z=trap[f.id];if(z.phase==='idle'&&player.x+PW/2>=f.trigger){z.phase='armed';z.lockedAt=sceneTime;z.t=sceneTime+f.delay;z.x=Math.max(90,Math.min(870,player.x+PW/2+(player.vx>=0?f.lead:-f.lead)-f.w/2));announce('TARGET LOCKED / MOVE OUT');say('Your failure location is locked. Moving away would be statistically rude.','warn');beep(680,.08)}}
+ for(const obj of [...L.crumble,...L.spikes,...L.blocks,...L.forecasts]){const z=trap[obj.id];if(z.phase==='armed'&&sceneTime>=z.t){z.phase='on';z.t=sceneTime;if(L.blocks.includes(obj))z.until=sceneTime+1.35;if(L.forecasts.includes(obj))z.until=sceneTime+.58;addBurst(obj.x+obj.w/2,FLOOR-10,'#ffca70',7);beep(160,.07)}}
+ const oldX=player.x,oldY=player.y;
+ player.x=Math.min(L.width-PW-10,Math.max(10,player.x+player.vx*dt));hitBarrier(oldX);
+ player.vy=Math.min(940,player.vy+GRAVITY*dt);player.y+=player.vy*dt;
+ let landed=false;
+ for(const p of platformList()){if(player.vy>=0 && oldY+PH<=FLOOR+10&&player.y+PH>=FLOOR && player.x+PW-5>p.x&&player.x+5<p.x+p.w){player.y=FLOOR-PH;player.vy=0;landed=true;break}}
+ if(landed){fallCause=null;if(!player.grounded)beep(95,.025,'triangle');player.grounded=true;player.coyote=.09}else{player.grounded=false;if(!fallCause&&oldY+PH<=FLOOR+10){const hole=L.pits.find(g=>player.x+PW>g.x&&player.x<g.x+g.w)||L.crumble.find(g=>trap[g.id].phase==='on'&&player.x+PW>g.x&&player.x<g.x+g.w);fallCause=hole?.id||null}}
+ if(player.y>H+12){let gap=L.pits.find(g=>player.x+PW>g.x&&player.x<g.x+g.w);let crumble=L.crumble.find(g=>player.x+PW>g.x&&player.x<g.x+g.w);die('ERROR 404: Supporting ground not found.',gap?.id||crumble?.id||fallCause);return}
+ for(const sp of L.spikes){if(trap[sp.id].phase==='on'&&overlap({x:player.x,y:player.y,w:PW,h:PH},scanRect(sp))){die('Your body was flagged as suspicious geometry.',sp.id);return}}
+ for(const b of L.blocks){const z=trap[b.id];if(z.phase==='on'){
+ const top=noticeTop(b);
+ if(overlap({x:player.x,y:player.y,w:PW,h:PH},{x:noticeX(b),y:top,w:b.w,h:88})){die('Urgent notice delivered directly to your skull.',b.id);return}
+ if(sceneTime>z.until)z.phase='done';}}
+ for(const f of L.forecasts){const z=trap[f.id];if(z.phase==='on'&&overlap({x:player.x,y:player.y,w:PW,h:PH},{x:z.x,y:FLOOR-62,w:f.w,h:62})){die('Your predicted location was deleted.','predict-'+f.id);return}if(z.phase==='on'&&sceneTime>z.until){z.phase='done';z.resultUntil=sceneTime+1.15;reactToSuccess('forecast',f.id);announce('PREDICTION FAILED / HUMAN SURVIVED');say('Prediction failed. Your survival will be recorded as a rounding error.');beep(880,.09,'triangle');}}
+ const b=barrier();if(b&&overlap({x:player.x,y:player.y,w:PW,h:PH},b)){die('A temporary door became a permanent wall.','wall-'+room);return}
+ updateAutocomplete();
+ checkRewriteCrossings(oldX);
+ if(room===4 && !exitAuditTriggered && player.x>L.auditX){exitAuditTriggered=true;doorLocked=true;glitch.exit=0;say('MODEL AUDIT: Exit was identified as an illustration. Please admire it.','danger');announce('EXITS ARE NOW WALL ART');beep(360,.12)}
+ if(L.fake&&!fakeRevealed&&player.x>L.fake.reveal){fakeRevealed=true;say('Recommended exit is a sponsored visual. Actual exits may vary.','warn');announce('FAKE EXIT REMOVED');beep(120,.15)}
+ if(active('bridge')===false&&glitch.bridge!==undefined&&player.x>360&&player.x<860&&player.y+PH>FLOOR+5){/* falling, intentional */}
+ if(player.x+PW>L.exit-3&&player.x<L.exit+36&&player.y+PH>=FLOOR-48){if(room===4&&(doorLocked||!active('exit'))){if(sceneTime>1&&Math.floor(sceneTime*2)%3===0){say('This doorway is a high-resolution painting. Press X near it.','warn')}}else nextRoom()}
+ if(state==='play'&&watchForCompaction(dt))return;
+ if(shake>0)shake=Math.max(0,shake-35*dt);
+ for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.life-=dt;p.vy+=670*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.life<=0)particles.splice(i,1)}
+ }
+function rounded(x,y,w,h,r=5){ctx.beginPath();ctx.roundRect(x,y,w,h,r)}
+const INK='#2b3a40',MUTED='#8a948d',PAPER='#eeeadd',RED='#cf5861',CYAN='#248c95',MINT='#4c9c80',GOLD='#cf9b50';
+function label(text,x,y,size=12,color=INK,align='left',weight='bold') {ctx.font=`${weight} ${size}px ui-monospace,Menlo,Consolas,monospace`;ctx.fillStyle=color;ctx.textAlign=align;ctx.fillText(text,x,y)}
+function rect(x,y,w,h,color){ctx.fillStyle=color;ctx.fillRect(x,y,w,h)}
+function stroke(x,y,w,h,color=INK,width=2){ctx.strokeStyle=color;ctx.lineWidth=width;ctx.strokeRect(x,y,w,h)}
+function dotline(x1,y1,x2,y2,color=INK){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.setLineDash([4,6]);ctx.stroke();ctx.setLineDash([])}
+function card(x,y,w,h,fill='#faf7eb',outline=INK){ctx.save();ctx.shadowColor='#28313844';ctx.shadowOffsetX=5;ctx.shadowOffsetY=7;ctx.shadowBlur=0;rect(x,y,w,h,fill);ctx.restore();stroke(x,y,w,h,outline,2)}
+function background(t){
+ rect(0,0,W,H,PAPER);
+ ctx.strokeStyle='#d9d6c7';ctx.lineWidth=1;
+ for(let x=20;x<W;x+=30){ctx.beginPath();ctx.moveTo(x,63);ctx.lineTo(x,H);ctx.stroke()}
+ for(let y=74;y<H;y+=30){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+ rect(0,62,W,2,INK);
+ // Ambient neural-model markup floats behind the play-space. Each line is a "certainty" note.
+ for(let i=0;i<4;i++){
+  const x=60+i*241,y=112+(i%2)*63;
+  label(['[CONFIDENCE: .999]','[SAFE BY DEFAULT]','[OBSERVATION #'+(room+1)+']','[USER: UNKNOWN]'][i],x,y,10,'#adb3aa');
+  dotline(x,y+8,x+110,y+8,'#c8c9bc');
+ }
+ // The route is written on loose document strips, with empty paper beneath it.
+ for(let x=30;x<W;x+=94){label(['if (human)','return ?','model.claim','// untested'][Math.floor(x/94)%4],x,FLOOR+66,10,'#b5b7ab','left','normal');}
+ dotline(16,H-31,W-16,H-31,'#c5c8bb');
+ label('WORLD FILE / reality.json',16,H-12,11,'#898e89','left','normal');
+ label('CANNOT VALIDATE HUMAN ENTITY',W-14,H-12,11,'#b1a6a1','right','normal');
+}
+function learned(x,txt='SEEN',y=FLOOR-104,targetY=FLOOR-13){label('↳ '+txt,x,y,10,'#9e3a42','center');dotline(x,y+4,x,targetY,'#b95d61')}
+function drawDocumentStrip(a){
+ ctx.save();ctx.beginPath();ctx.rect(a.x,FLOOR,a.w,29);ctx.clip();
+ ctx.beginPath();ctx.moveTo(a.x,FLOOR);ctx.lineTo(a.x+a.w,FLOOR);ctx.lineTo(a.x+a.w,FLOOR+20);
+ for(let x=a.x+a.w;x>a.x;x-=13)ctx.lineTo(Math.max(a.x,x-7),FLOOR+16+(Math.floor(x/13)%2)*4);
+ ctx.closePath();ctx.fillStyle='#fbf6e7';ctx.fill();
+ rect(a.x,FLOOR,a.w,3,INK);
+ for(let x=Math.ceil(a.x/30)*30+5;x<a.x+a.w;x+=30){ctx.beginPath();ctx.arc(x,FLOOR+10,2.2,0,Math.PI*2);ctx.fillStyle='#b3b8aa';ctx.fill();rect(x+7,FLOOR+8,13,2,'#c4c7b8');}
+ ctx.restore();
+}
+function drawFloorHints(){
+ if(!L.floorLies)return;
+ for(const hint of L.floorHints){const cx=hint.x+hint.w/2;
+  if(hint.kind==='approved'){
+   label('[ approved ]',cx,FLOOR+13,10,'#797b73','center');ctx.strokeStyle='#92978c';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(hint.x+4,FLOOR+18);ctx.lineTo(hint.x+hint.w-4,FLOOR+18);ctx.stroke();
+  }else{
+   ctx.strokeStyle='#987d72';ctx.lineWidth=1.5;ctx.beginPath();for(let x=hint.x;x<hint.x+hint.w;x+=10){ctx.moveTo(x,FLOOR-1);ctx.lineTo(x+5,FLOOR+5);ctx.lineTo(x+2,FLOOR+13)}ctx.stroke();
+   label('[ allegedly unsafe ]',cx,FLOOR-18,9,'#987d72','center');label('CAUTION*',cx,FLOOR+26,9,'#987d72','center');dotline(hint.x,FLOOR-14,hint.x+hint.w,FLOOR-14,'#987d72');
+  }
+ }
+}
+function drawRedaction(o){const z=trap[o.id],activated=z.phase==='on',armed=z.phase==='armed';
+ if(activated){
+  // Censored text drops through the missing strip instead of leaving a block-shaped pit.
+  rect(o.x,FLOOR+5,o.w,14,INK);label('REDACTED',o.x+o.w/2,FLOOR+16,10,'#f7e5d6','center');
+  for(let i=0;i<5;i++){const y=FLOOR+27+(i*13+Math.floor(sceneTime*35))%60;label(['x','?',';','0','/'][i],o.x+12+(i*19)%(o.w-18),y,12,'#a68783','center');}
+  dotline(o.x,FLOOR,o.x+o.w,FLOOR,RED);
+ } else {
+  const remembered=L.floorLies&&seen.has(`${room}:${o.id}`);
+  label(armed&&L.floorLies?'[ approval revoked ]':armed?'[ deleting ]':'[ approved ]',o.x+o.w/2,FLOOR+13,10,armed?RED:'#797b73','center');
+  if(remembered&&!armed){dotline(o.x+3,FLOOR+9,o.x+o.w-3,FLOOR+9,INK);label('Previously explained',o.x+o.w/2,FLOOR+34,9,MUTED,'center');}
+
+  ctx.strokeStyle=armed?RED:'#92978c';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(o.x+4,FLOOR+18);ctx.lineTo(o.x+o.w-4,FLOOR+18);ctx.stroke();
+  if(armed){const remain=Math.max(0,z.t-sceneTime);rect(o.x,FLOOR-10,o.w*(1-remain/o.delay||.7),5,RED)}
+ }
+ if(seen.has(`${room}:${o.id}`))learned(o.x+o.w/2,'REDACTION');
+}
+function scanRect(o){return {x:o.x,y:o.sky?FLOOR-156:FLOOR-44,w:o.w,h:o.sky?72:44}}
+function drawScan(o){let z=trap[o.id];const {w,h,y}=scanRect(o);
+ if(o.sky){ctx.save();ctx.globalAlpha=.55;ctx.setLineDash([4,6]);stroke(o.x,FLOOR-44,w,44,RED,1);ctx.setLineDash([]);label('AI FLAG',o.x+w/2,FLOOR-49,9,RED,'center');if(z.phase!=='idle')label('STALE CLAIM',o.x+w/2,FLOOR+27,9,MUTED,'center');ctx.restore();}
+
+ if(z.phase==='done'||z.phase==='idle'){if(seen.has(`${room}:${o.id}`)){
+  stroke(o.x,y,w,h,'#cd8c91',1);label(o.sky?'AIR FLAG':'AI FLAG',o.x+w/2,y-5,9,RED,'center');
+ }return}
+ const hot=z.phase==='on', c=hot?RED:GOLD;
+ ctx.fillStyle=hot?'#e76e7035':'#d1a45625';ctx.fillRect(o.x,y,w,h);
+ ctx.strokeStyle=c;ctx.lineWidth=4;let q=13;
+ for(const xx of [o.x,o.x+w])for(const yy of [y,y+h]){let dirx=xx===o.x?1:-1,diry=yy===y?1:-1;ctx.beginPath();ctx.moveTo(xx,yy+diry*q);ctx.lineTo(xx,yy);ctx.lineTo(xx+dirx*q,yy);ctx.stroke()}
+ // A moving censor mark is the classifier's physical rejection, not a spike substitute.
+ ctx.save();ctx.beginPath();ctx.rect(o.x,y,w,h);ctx.clip();
+ const sweep=hot?((sceneTime*36)%h):((sceneTime*22)%h);
+ for(let i=0;i<3;i++)rect(o.x+5,y+((sweep+i*13)%h),w-10,hot?5:2,c);
+ ctx.restore();label(hot?'REJECT':'SCAN',o.x+w/2,y+27,12,hot?'#782c38':INK,'center');
+ label(o.sky?'RELOCATED FLAG':hot?'FALSE POSITIVE':'SCANNING',o.x+w/2,y-12,10,c,'center');
+ if(seen.has(`${room}:${o.id}`))learned(o.x+w/2,o.sky?'AIR FLAG':'DETECTION',o.sky?FLOOR-188:FLOOR-104,o.sky?y:FLOOR-13);
+}
+function noticeX(o){return trap[o.id].x??o.x}
+function noticeVisualX(o){const z=trap[o.id];if(!o.shifting||z.phase!=='armed')return noticeX(o);const ratio=Math.max(0,Math.min(1,(sceneTime-z.lockedAt)/o.delay));return o.x+(noticeX(o)-o.x)*ratio}
+function noticeTop(o){let z=trap[o.id];if(z.phase==='idle'||z.phase==='armed')return 166;
+ if(z.phase==='done')return -200;const d=sceneTime-z.t;
+ return d<.16?166+d*1260:d<.79?FLOOR-88:d<1.13?FLOOR-88-(d-.79)*800:166;
+}
+function drawNotice(o){let z=trap[o.id];if(z.phase==='done')return;let y=noticeTop(o);const w=o.w,x=noticeVisualX(o);
+ if(o.shifting&&z.phase!=='idle'){
+  ctx.save();ctx.setLineDash([3,6]);stroke(o.x,FLOOR-88,w,88,'#ba7c83',1);label('ORIGINAL CLAIM',o.x+w/2,FLOOR+29,9,MUTED,'center');
+  const target=noticeX(o),color=z.phase==='armed'?GOLD:RED;stroke(target,166,w,FLOOR-166,color,2);ctx.setLineDash([]);label(z.phase==='armed'?'DROP TARGET LOCKED':'DROP ACTIVE',target+w/2,FLOOR-140,10,color,'center');
+  if(z.phase==='armed')label(Math.max(0,z.t-sceneTime).toFixed(2)+'s',target+w/2,FLOOR-127,9,color,'center');ctx.restore();
+ }
+ // A descending rejection receipt: folded corner, torn foot, ink stamp and perforations.
+ ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+w-13,y);ctx.lineTo(x+w,y+13);ctx.lineTo(x+w,y+82);
+ for(let edge=x+w;edge>x;edge-=8){ctx.lineTo(Math.max(x,edge-4),y+88);ctx.lineTo(Math.max(x,edge-8),y+82)}
+ ctx.lineTo(x,y);ctx.closePath();ctx.fillStyle='#fcf5e4';ctx.fill();ctx.strokeStyle=RED;ctx.lineWidth=2;ctx.stroke();
+ ctx.beginPath();ctx.moveTo(x+w-13,y);ctx.lineTo(x+w-13,y+13);ctx.lineTo(x+w,y+13);ctx.stroke();
+ label('403',x+w/2,y+26,18,RED,'center');
+ ctx.beginPath();ctx.arc(x+w/2,y+45,11,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(x+w/2-7,y+52);ctx.lineTo(x+w/2+7,y+38);ctx.stroke();
+ label('DENIED',x+w/2,y+69,10,RED,'center');
+ for(let bar=x+7;bar<x+w-5;bar+=7)rect(bar,y+75,2,4,INK);
+ if(z.phase==='armed')dotline(x+w/2,y+90,x+w/2,FLOOR,'#d7565e');
+ if(seen.has(`${room}:${o.id}`))learned(noticeX(o)+w/2,o.shifting?'SHIFTING DROP':'DIALOG');
+}
+function drawForecast(f){let z=trap[f.id];if(z.phase==='idle'){
+  const scanning=player.x+PW/2>=f.trigger-110;
+  label(scanning?'SCANNING…':'PREDICTION ENGINE',f.trigger-14,FLOOR-87,10,scanning?CYAN:'#ba8b75','center');return}
+ if(z.phase==='done'){
+  if(sceneTime<z.resultUntil){const cx=Math.max(90,Math.min(W-90,z.x+f.w/2));
+   ctx.save();ctx.globalAlpha=Math.min(1,(z.resultUntil-sceneTime)/.3);
+   card(cx-88,FLOOR-102,176,50,'#e7f1e3',MINT);
+   label('PREDICTION FAILED',cx,FLOOR-82,12,MINT,'center');label('HUMAN SURVIVED',cx,FLOOR-65,10,INK,'center');
+   ctx.beginPath();ctx.moveTo(cx-9,FLOOR-42);ctx.lineTo(cx-2,FLOOR-35);ctx.lineTo(cx+12,FLOOR-51);ctx.strokeStyle=MINT;ctx.lineWidth=4;ctx.stroke();ctx.restore();
+  }return;
+ }
+ let on=z.phase==='on',x=z.x,y=FLOOR-62,w=f.w;
+ rect(x,y,w,62,on?'#d65b663e':'#e8a95833');
+ // Solid corners mean this forecast is fixed in place; dashes distinguish the warning area.
+ ctx.strokeStyle=on?RED:GOLD;ctx.lineWidth=2.5;ctx.setLineDash(on?[]:[5,5]);ctx.strokeRect(x,y,w,62);ctx.setLineDash([]);
+ ctx.lineWidth=4;const q=12;ctx.beginPath();
+ for(const xx of [x,x+w])for(const yy of [y,y+62]){ctx.moveTo(xx+(xx===x?q:-q),yy);ctx.lineTo(xx,yy);ctx.lineTo(xx,yy+(yy===y?q:-q))}ctx.stroke();
+ // The AI's incorrect forecast renders a ghost of the player at the predicted location.
+ ctx.globalAlpha=on?.96:.60;
+ ctx.fillStyle=on?RED:GOLD;ctx.beginPath();ctx.arc(x+w/2,y+20,9,0,Math.PI*2);ctx.fill();
+ rounded(x+w/2-9,y+31,18,22,4);ctx.fill();ctx.globalAlpha=1;
+ const cx=Math.max(87,Math.min(W-87,x+w/2));card(cx-85,y-58,170,48,on?'#f5e0dc':'#faf3df',on?RED:GOLD);
+ label(on?'PURGE ACTIVE':'TARGET LOCKED',cx,y-39,12,on?RED:INK,'center');
+ const countdown=Math.max(0,z.t-sceneTime);label(on?'KEEP CLEAR':`MOVE OUT · ${countdown.toFixed(2)}s`,cx,y-23,10,on?RED:INK,'center');
+ if(!on){const remaining=Math.max(0,Math.min(1,countdown/f.delay));rect(x,y+65,w,5,'#d6cbb6');rect(x,y+65,w*remaining,5,GOLD);}
+ if(seen.has(`${room}:${f.id}`)||seen.has(`${room}:predict-${f.id}`))label('↳ LEARNED FORECAST',cx,y-68,9,RED,'center');
+}
+function drawVoid(p){let bridged=['null-b','null-d'].includes(p.id)&&active('bridge');if(bridged){
+  // The fabricated support is a stitched assertion across an unbound reference.
+  rect(p.x,FLOOR,p.w,3,MINT);
+  for(let x=p.x+7;x<p.x+p.w;x+=17){ctx.beginPath();ctx.moveTo(x-4,FLOOR-3);ctx.lineTo(x+4,FLOOR+8);ctx.strokeStyle=MINT;ctx.lineWidth=2;ctx.stroke();}
+  label('support := true;',p.x+p.w/2,FLOOR+23,12,MINT,'center');
+  label('INFERRED SUPPORT',p.x+p.w/2,FLOOR-17,11,MINT,'center');
+ }else{
+  ctx.save();ctx.beginPath();ctx.rect(p.x,FLOOR,p.w,H-FLOOR-33);ctx.clip();
+  label('{',p.x+12,FLOOR+53,48,'#b29e98','center','normal');label('}',p.x+p.w-12,FLOOR+53,48,'#b29e98','center','normal');
+  label('?',p.x+p.w/2,FLOOR+44,30,RED,'center','normal');
+  ctx.setLineDash([3,5]);ctx.strokeStyle='#beaaa0';ctx.beginPath();ctx.moveTo(p.x,FLOOR+5);ctx.bezierCurveTo(p.x+10,FLOOR+67,p.x+p.w-10,FLOOR+67,p.x+p.w,FLOOR+5);ctx.stroke();ctx.setLineDash([]);ctx.restore();
+  label('UNBOUND',p.x+p.w/2,FLOOR+65,10,RED,'center');
+ }}
+function drawBarrier(){const b=barrier();if(b){
+  // The solid type is a bound stack of mathematical clauses, not a masonry wall.
+  rect(b.x,b.y,b.w,b.h,'#dbe9df');ctx.strokeStyle=CYAN;ctx.lineWidth=3;
+  for(const side of [-1,1]){const x=side<0?b.x:b.x+b.w,inside=x-side*8;ctx.beginPath();ctx.moveTo(inside,b.y);ctx.bezierCurveTo(x,b.y,x,b.y+10,x,b.y+25);ctx.lineTo(x,b.y+b.h/2-12);ctx.lineTo(inside,b.y+b.h/2);ctx.lineTo(x,b.y+b.h/2+12);ctx.lineTo(x,b.y+b.h-25);ctx.bezierCurveTo(x,b.y+b.h-10,x,b.y+b.h,inside,b.y+b.h);ctx.stroke();}
+  for(let i=0;i<3;i++){const y=b.y+30+i*38;label(['{','≠','}'][i],b.x+b.w/2,y,23,CYAN,'center','normal');}
+  label('TYPE SEAL',b.x+b.w/2,b.y-9,10,CYAN,'center');
+ }else if(L.anomalies.some(a=>a.kind==='wall')){
+  const x=room===2?588:439;ctx.setLineDash([5,6]);stroke(x,FLOOR-138,room===2?34:32,138,MINT,2);ctx.setLineDash([]);
+  label('AIR?',x+14,FLOOR-145,10,MINT,'center');
+ }}
+function drawExit(x,disabled=false,decoy=false){
+ const c=disabled?RED:decoy?GOLD:MINT;
+ if(disabled){
+  // A pinned illustration of the tear is visibly flat and crossed out.
+  ctx.save();ctx.translate(x+23,FLOOR-34);ctx.rotate(-.10);rect(-22,-31,44,62,'#fbf3e4');stroke(-22,-31,44,62,INK,1.5);
+  label('→',0,4,30,'#b2b9ac','center');ctx.beginPath();ctx.moveTo(-15,18);ctx.lineTo(15,-18);ctx.strokeStyle=RED;ctx.lineWidth=3;ctx.stroke();
+  label('.JPG',0,26,9,RED,'center');ctx.restore();ctx.beginPath();ctx.arc(x+23,FLOOR-64,3,0,Math.PI*2);ctx.fillStyle=RED;ctx.fill();
+ }else{
+  // Escape is a punched output tear in the sheet, crossed by a handwritten arrow.
+  ctx.beginPath();ctx.moveTo(x+11,FLOOR-63);ctx.lineTo(x+28,FLOOR-60);ctx.lineTo(x+25,FLOOR-49);ctx.lineTo(x+38,FLOOR-36);ctx.lineTo(x+29,FLOOR-23);ctx.lineTo(x+35,FLOOR-8);ctx.lineTo(x+16,FLOOR-1);ctx.lineTo(x+10,FLOOR-17);ctx.lineTo(x+16,FLOOR-28);ctx.lineTo(x+7,FLOOR-43);ctx.closePath();ctx.fillStyle=decoy?'#e7d7b5':'#24383b';ctx.fill();ctx.strokeStyle=c;ctx.lineWidth=2;ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x-7,FLOOR-31);ctx.bezierCurveTo(x+6,FLOOR-38,x+20,FLOOR-27,x+36,FLOOR-34);ctx.lineTo(x+29,FLOOR-42);ctx.moveTo(x+36,FLOOR-34);ctx.lineTo(x+29,FLOOR-26);ctx.strokeStyle=decoy?GOLD:'#a8d9b6';ctx.lineWidth=3;ctx.stroke();
+  label(decoy?'SUGGESTED':'OUTPUT',x+23,FLOOR-75,11,c,'center');
+ }
+}
+function drawAnomalies(){const selected=nearest();for(const a of L.anomalies){const on=active(a.kind),sel=a===selected;
+ const x=a.x-35,y=a.y-18;
+ // Folded editorial tags bind to anomalies; they are neither crates nor floating pickups.
+ ctx.beginPath();ctx.moveTo(x+8,y);ctx.lineTo(x+61,y);ctx.lineTo(x+69,y+8);ctx.lineTo(x+65,y+34);ctx.lineTo(x,y+34);ctx.lineTo(x,y+8);ctx.closePath();ctx.fillStyle=on?'#d1e8d4':'#fbf8ed';ctx.fill();ctx.strokeStyle=sel?INK:on?MINT:CYAN;ctx.lineWidth=sel?2.5:1.5;ctx.stroke();
+ label(a.kind==='wall'?'TYPE':a.kind==='bridge'?'NULL':'IMAGE',a.x,y+13,10,INK,'center');label(on?'REWRITTEN':'?',a.x,y+27,on?8:15,on?MINT:RED,'center');
+ if(sel){label('X: REWRITE',a.x,a.y-30,11,INK,'center');dotline(a.x,a.y+18,a.x,FLOOR-8,CYAN)}
+ }}
+function drawObserver(t){
+ // The antagonist is not a monster: it is a large, ever-confident visual classifier.
+ const cx=550,cy=240,feedback=forecastFeedback(),threat=['locked','purge'].includes(feedback.phase);
+ const observerColor=feedback.phase==='purge'?RED:feedback.phase==='locked'?GOLD:feedback.phase==='missed'?MINT:CYAN;
+ ctx.save();ctx.globalAlpha=.9;
+ ctx.strokeStyle=observerColor;ctx.lineWidth=2;
+ ctx.beginPath();ctx.ellipse(cx,cy,62,58,0,0,Math.PI*2);ctx.stroke();
+ ctx.beginPath();ctx.ellipse(cx,cy,75,70,0,0,Math.PI*2);ctx.setLineDash([2,10]);ctx.stroke();ctx.setLineDash([]);
+ // Camera aperture eye reads position; it is intentionally always looking at the human.
+ const focus=(threat?feedback.z.x+feedback.f.w/2:(player?.x||50)+12)-cameraX;
+ const age=observerTime-observer.reactionAt,stage=observer.stage;
+ const twitch=!threat&&stage>=4&&age<1.2?Math.sin(observerTime*37)*2:0;
+ const focusX=!threat&&stage===5?15:Math.max(-13,Math.min(13,(focus-cx)/48))+twitch;
+ rect(cx-40,cy-18,80,37,'#d0e6db');stroke(cx-40,cy-18,80,37,'#418d87',2);
+ ctx.fillStyle=observerColor;ctx.beginPath();ctx.arc(cx+focusX,cy,14-stage*.9,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#273a3d';ctx.beginPath();ctx.arc(cx+focusX,cy,6,0,Math.PI*2);ctx.fill();
+ if(!threat&&((age<.11)||(age>.22&&age<.33))){rect(cx-39,cy-17,78,35,PAPER);dotline(cx-35,cy,cx+35,cy,INK)}
+ for(let i=0;i<7;i++){const angle=t*.28+i*Math.PI*2/7;rect(cx+Math.sin(angle)*55,cy+Math.cos(angle)*53,5,5,observerColor)}
+ label('MODEL OBSERVER',cx,cy-84,12,INK,'center');
+ if(stage>0){label('CALM / FULLY IN CONTROL',cx,cy-70,9,MUTED,'center');dotline(cx-66,cy-64,cx+66,cy-64,INK);if(stage>1)dotline(cx-66,cy-61,cx+66,cy-61,INK)}
+ label(feedback.phase==='idle'?'THIS IS PROBABLY FINE':feedback.phase==='scanning'?'SCANNING MOVEMENT':feedback.phase==='locked'?'TARGET LOCKED · MOVE OUT':feedback.phase==='purge'?'PURGE ACTIVE':'PREDICTION FAILED',cx,cy+92,10,observerColor,'center');
+ ctx.strokeStyle='#a4afa1';ctx.lineWidth=1;ctx.setLineDash([3,7]);
+ ctx.beginPath();ctx.moveTo(cx-42,cy+37);ctx.lineTo(focus,threat?FLOOR-62:(player?.y||405)-15);ctx.stroke();ctx.setLineDash([]);
+ if(feedback.phase==='scanning'){const sweep=(Math.sin(t*9)+1)/2;rect(cx-38+sweep*74,cy-16,3,33,CYAN);}
+ ctx.restore();
+ // Misclassified categories show up as margin notes, not game-world props.
+ card(45,157,207,80,'#f6f1e5','#98a69b');
+ label('OBJECT CLASSIFIER',57,175,10,CYAN);
+ label(observer.stage>=3?'INPUT: FURNITURE':'INPUT: UNSUPPORTED',57,194,12,INK);
+ label('OUTPUT: TOTALLY SAFE',57,213,11,RED);
+ label(`FORECASTS SURVIVED: ${observer.forecastMisses}`,57,227,9,MINT,'left','normal');
+ const notes=['NO CORRECTION REQUIRED','ERROR WAS INTENTIONAL','* COOPERATIVE HUMANS ONLY','FURNITURE IS NOT A HUMAN','ISOLATED / REPEATED / FINE','YOU WERE RI... ARCHIVED'];
+ label(notes[observer.stage],57,255,9,INK);
+ if(observer.stage>=4){dotline(57,251,236,251,RED);label(observer.stage===5?'CORRECTION WITHDRAWN':'EXPLANATION UNDER REVISION',57,270,9,RED)}
+}
+function drawPlayer(){if(state==='dead')return;
+ const px=player.x,py=player.y;
+ // A loose margin doodle: paper face, asymmetric ink limbs and a crossed-out label.
+ ctx.beginPath();ctx.arc(px+12,py+8,7,0,Math.PI*2);ctx.fillStyle='#fff6d9';ctx.fill();ctx.strokeStyle=INK;ctx.lineWidth=2;ctx.stroke();
+ ctx.beginPath();ctx.moveTo(px+7,py+17);ctx.lineTo(px+17,py+16);ctx.lineTo(px+19,py+27);ctx.lineTo(px+6,py+27);ctx.closePath();ctx.fillStyle='#f2d6bc';ctx.fill();ctx.stroke();
+ ctx.beginPath();ctx.moveTo(px+9,py+27);ctx.lineTo(px+7,py+33);ctx.lineTo(px+3,py+33);ctx.moveTo(px+16,py+27);ctx.lineTo(px+18,py+33);ctx.lineTo(px+22,py+33);ctx.moveTo(px+7,py+19);ctx.lineTo(px+3,py+23);ctx.moveTo(px+17,py+19);ctx.lineTo(px+22,py+17);ctx.stroke();
+ rect(px+9,py+19,7,5,RED);ctx.beginPath();ctx.moveTo(px+8,py+25);ctx.lineTo(px+17,py+18);ctx.strokeStyle=INK;ctx.lineWidth=1.4;ctx.stroke();
+ ctx.strokeStyle=CYAN;ctx.lineWidth=1.5;
+ let l=7;ctx.beginPath();ctx.moveTo(px-3,py+l);ctx.lineTo(px-3,py-3);ctx.lineTo(px+l,py-3);ctx.moveTo(px+PW+3,py+l);ctx.lineTo(px+PW+3,py-3);ctx.lineTo(px+PW-l,py-3);
+ ctx.moveTo(px-3,py+PH-l);ctx.lineTo(px-3,py+PH+3);ctx.lineTo(px+l,py+PH+3);ctx.moveTo(px+PW+3,py+PH-l);ctx.lineTo(px+PW+3,py+PH+3);ctx.lineTo(px+PW-l,py+PH+3);ctx.stroke();
+ label('?',px+12,py+12,10,INK,'center');
+}
+function drawDesktop(){if(state==='compacting'){drawCompaction();return}const t=sceneTime;ctx.save();if(shake>0)ctx.translate(Math.sin(t*105)*shake*.30,Math.cos(t*69)*shake*.24);updateCamera();background(t);drawObserver(t);ctx.save();ctx.translate(-cameraX,0);
+ const parts=platformList();for(const a of parts)drawDocumentStrip(a);drawFloorHints();if(L.longSession){for(let x=1400;x<L.width;x+=1400)label('CONTEXT BUFFER / SECTION '+Math.round(x/1400),x,FLOOR+48,10,MUTED,'center');label('CONTEXT LIMIT / PROGRESS WILL BE SUMMARIZED',L.compactionAt,FLOOR-70,11,GOLD,'center');}
+ for(const p of L.pits)drawVoid(p);
+ for(const c of L.crumble)drawRedaction(c);
+ for(const s of L.spikes)drawScan(s);
+ for(const b of L.blocks)drawNotice(b);
+ for(const f of L.forecasts)drawForecast(f);
+ drawBarrier();
+ if(L.fake&&!fakeRevealed)drawExit(L.fake.x,false,true);
+ const disabled=room===4&&(doorLocked||!active('exit'));drawExit(L.exit,disabled,false);
+ drawAnomalies();
+ for(const p of particles){ctx.globalAlpha=Math.max(0,Math.min(1,p.life*1.6));rect(p.x,p.y,4,4,p.c)}ctx.globalAlpha=1;
+ drawPlayer();drawAutocomplete();if(cameraX>100)label(L.floorLies?'CERTIFICATION MAY DIFFER FROM REALITY':'APPENDIX / THE MODEL HAS MORE OPINIONS',975,FLOOR+48,10,MUTED,'center');ctx.restore();
+ rect(0,0,W,61,'#27363a');
+ rect(0,59,W,3,'#73a99a');
+ label('MODEL / '+String(room+1).padStart(2,'0')+'    '+L.title,18,26,15,'#f5f0df');
+ label('ENTITY: [UNKNOWN HUMAN]    MOVE A/D  •  JUMP SPACE  •  REWRITE X',18,48,11,'#aed4c7','left','normal');
+ const cert=96+Math.floor(3.8*Math.sin(t*2.1));label(cert.toFixed(1)+'% CERTAIN',W-18,26,12,'#ead790','right');
+ label('ROUTE '+Math.round((player.x-L.start)/(L.exit-L.start)*100)+'% / '+(L.exit-L.start)+'px',W-18,48,10,'#aec9bf','right','normal');
+ ctx.restore()}
+function refreshDesktopHud(){$('room').textContent=String(room+1).padStart(2,'0')+' / '+String(LEVELS.length).padStart(2,'0');$('deaths').textContent=totalDeaths;$('attempt').textContent=attempts[room];$('status').textContent=state==='compacting'?'COMPACTING':state==='won'?'ESCAPED':Object.values(glitch).some(v=>v>sceneTime)?'REWRITTEN':Object.values(trap).some(v=>v.phase==='armed'||v.phase==='on')?'AI EDITING':'STABLE*';$('target').textContent=nearest()?.kind?.toUpperCase()||'none (get closer)';let live=Object.entries(glitch).filter(([,v])=>v>sceneTime);$('systemstate').textContent=live.length?live.map(([k,v])=>`${k.toUpperCase()} ${Math.max(0,v-sceneTime).toFixed(1)}s`).join(' / '):Object.values(trap).some(v=>v.phase==='armed'||v.phase==='on')?'MODEL IS EDITING THE WORLD':'NO ACTIVE LIES';const autoText=autocomplete?.phase==='guess'?`AI guesses ${autocomplete.mode.toLowerCase()} · optional`:`Rejected ${autocompleteStats.rejected} · chain ${autocompleteStats.streak} · best ${autocompleteStats.best}`;if($('autocompleteStatus').textContent!==autoText)$('autocompleteStatus').textContent=autoText;const forecastText=state==='compacting'?'CONTEXT FROZEN':state==='dead'?'RETRYING':state==='won'?'ESCAPED':forecastFeedback().text;if($('forecast').textContent!==forecastText)$('forecast').textContent=forecastText;}
+let last=0,acc=0;function frame(ts){const now=ts/1000;let dt=Math.min(.06,Math.max(0,now-last));last=now;acc+=dt;while(acc>=1/120){runFrame(1/120);acc-=1/120}draw();refreshHud();requestAnimationFrame(frame)}
+function startPractice(index){if(state==='dead'||state==='compacting')return;initRoom(true);practiceMode=true;practiceRoom=index;room=index;feed=[];initRoom();announce('PRACTICE / '+L.title)}
+function jump(){if(state==='play')player.jumpBuffer=.13}
+function down(e){if(mobilePaused)return;const c=e.code,held=pressedKeys.has(c);pressedKeys.add(c);if(['ArrowLeft','ArrowRight','KeyA','KeyD','Space','Enter','NumpadEnter','ArrowUp','KeyW','KeyX','KeyR'].includes(c))e.preventDefault();if(state==='compacting')return;if(state==='dead'){if(['Space','Enter','NumpadEnter'].includes(c)&&!e.repeat&&!held)acknowledgeLoss();return}if(['ArrowLeft','KeyA'].includes(c))keys.add('left');if(['ArrowRight','KeyD'].includes(c))keys.add('right');if(['Space','ArrowUp','KeyW'].includes(c)&&!e.repeat&&!held)jump();if(c==='KeyX'&&!e.repeat&&!held)lie();if(c==='KeyR'&&!e.repeat&&!held)initRoom(state==='won')}
+function up(e){pressedKeys.delete(e.code);if(['ArrowLeft','KeyA'].includes(e.code))keys.delete('left');if(['ArrowRight','KeyD'].includes(e.code))keys.delete('right')}
+document.addEventListener('keydown',down);document.addEventListener('keyup',up);window.addEventListener('blur',()=>{keys.clear();pressedKeys.clear()});$('restart').onclick=()=>{if(state==='compacting')return;if(state==='dead')acknowledgeLoss();else initRoom(state==='won')};$('floorPractice').onclick=()=>startPractice(LEVELS.findIndex(level=>level.floorLies));$('longPractice').onclick=()=>startPractice(LEVELS.findIndex(level=>level.longSession));$('lossContinue').onclick=acknowledgeLoss;$('mute').onclick=()=>{sound=!sound;$('mute').textContent=sound?'♫ Sound: ON':'♫ Sound: OFF';if(sound)beep(430,.06)};
+// Read-only console hooks used for offline smoke tests; not required by gameplay.
+window.__EXCEPTION_TEST__={getState:()=>({room,practiceMode,practiceRoom,roomElapsed,player:{...player},deaths:totalDeaths,attempt:attempts[room],sceneTime,state,trap:JSON.parse(JSON.stringify(trap)),glitch:{...glitch},fakeRevealed,doorLocked,exitAuditTriggered,observer:{...observer},compaction:compaction?{time:compaction.time,returnX:compaction.returnX,reason:compaction.reason}:null,compactCounts:[...compactCounts],compactWatch:{...compactWatch},compactSeed,worldWidth:L.width,exit:L.exit,cameraX,seen:[...seen],autocomplete:autocomplete?{...autocomplete}:null,autocompleteStats:{...autocompleteStats},receiptSequence,victoryReceipts:victoryReceipts.map(r=>({...r}))}),moveTo(x){player.x=x},jump,lie,reset:initRoom};
+function mobileMessage(text,mode=''){mobileMessageText=text;mobileMessageMode=mode;const el=document.getElementById('mobileText');if(el.textContent!==text)el.textContent=text;document.getElementById('mobileDialogue').dataset.mode=mode;document.getElementById('menuLatest').textContent=text}
+function clearMobileInput(){mobilePointers.clear();keys.clear();pressedKeys.clear();if(player)player.jumpBuffer=0;document.querySelectorAll('[data-hold]').forEach(b=>b.classList.remove('held'))}
+function pauseMobile(reason='Paused. The AI can wait.'){mobilePaused=true;clearMobileInput();$('menuTitle').textContent=reason;$('mobileResume').textContent='Resume';$('mobileMenu').hidden=false;if(audio?.state==='running')audio.suspend().catch(()=>{})}
+function resumeMobile(){if(window.innerHeight>window.innerWidth||document.hidden)return;clearMobileInput();mobilePaused=false;last=performance.now()/1000;acc=0;$('mobileMenu').hidden=true;if(sound&&audio?.state==='suspended')audio.resume().catch(()=>{})}
+function syncMobileUI(){
+ const feedback=forecastFeedback(),active=['scanning','locked','purge','missed'].includes(feedback.phase);const signal=state==='compacting'?'COMPACTING / PLEASE WAIT':state==='dead'?'USER ERROR / READ AT YOUR LEISURE':state==='won'?'ESCAPED':active?feedback.text:autocomplete?.phase==='guess'?'AI GUESS: '+autocomplete.mode+' / OPTIONAL':nearest()?'REWRITE: '+nearest().kind.toUpperCase()+' / TAP X':'MOVE · JUMP · REWRITE';
+ if($('mobileSignal').textContent!==signal)$('mobileSignal').textContent=signal;
+ $('mobileWinRestart').hidden=state!=='won';for(const id of ['restart','floorPractice','longPractice'])$(id).disabled=state==='dead'||state==='compacting';
+}
+function refreshHud(){refreshDesktopHud();syncMobileUI()}
+function runFrame(dt){if(mobilePaused||document.hidden||window.innerHeight>window.innerWidth)return;runDesktopFrame(dt)}
+function draw(){ctx.save();ctx.translate(0,-150);drawDesktop();ctx.restore()}
+function updateMobileOrientation(){const landscape=window.innerWidth>window.innerHeight;$('mobileRotate').hidden=landscape;if(landscape!==mobileLandscape){mobileLandscape=landscape;pauseMobile(landscape?'Rotated. Tap Resume when your thumbs are ready.':'Paused while rotating.')}if(!landscape)clearMobileInput()}
+function installMobileUI(){
+ // Safari long-press UI must not take over held gameplay controls.
+ // Keep native pinch zoom available elsewhere, including the canvas and menus.
+ document.addEventListener('contextmenu',e=>{if(e.target.closest('button,#mobileApp'))e.preventDefault()});
+ for(const b of document.querySelectorAll('#touch button')){
+  b.addEventListener('touchstart',e=>e.preventDefault(),{passive:false});
+  b.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+ }
+ $('mobilePause').onclick=()=>pauseMobile();$('mobileDialogue').onclick=()=>pauseMobile('Paused. Read the AI at your own pace.');$('mobileDialogue').addEventListener('keydown',e=>{if(e.code==='Enter'||e.code==='Space'){e.preventDefault();e.stopPropagation();pauseMobile('Paused. Read the AI at your own pace.')}});$('mobileResume').onclick=resumeMobile;
+ $('mobileWinRestart').onclick=()=>{initRoom(true);syncMobileUI()};
+ for(const id of ['restart','floorPractice','longPractice'])$(id).addEventListener('click',()=>{if(state!=='dead'&&state!=='compacting')resumeMobile()});
+ for(const b of document.querySelectorAll('[data-hold]')){
+  const key=b.dataset.hold;
+  b.addEventListener('pointerdown',e=>{e.preventDefault();if(mobilePaused||state!=='play')return;mobilePointers.set(e.pointerId,key);keys.add(key);b.classList.add('held');try{b.setPointerCapture(e.pointerId)}catch(_){}});
+  for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,e=>{mobilePointers.delete(e.pointerId);if(![...mobilePointers.values()].includes(key)){keys.delete(key);b.classList.remove('held')}});
+ }
+ $('touchjump').addEventListener('pointerdown',e=>{e.preventDefault();if(!mobilePaused)jump()});$('glitch').addEventListener('pointerdown',e=>{e.preventDefault();if(!mobilePaused)lie()});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseMobile('Paused while you were away.');else if(mobilePaused)$('mobileMenu').hidden=false});
+ window.addEventListener('blur',()=>pauseMobile('Paused while you were away.'));window.addEventListener('resize',updateMobileOrientation);window.addEventListener('orientationchange',updateMobileOrientation);
+ const originalState=window.__EXCEPTION_TEST__.getState;window.__EXCEPTION_TEST__.getState=()=>({...originalState(),mobilePaused,landscape:mobileLandscape});
+ updateMobileOrientation();
+}
+
+installMobileUI();initRoom(true);requestAnimationFrame(frame);
+})();
+</script></body></html>
