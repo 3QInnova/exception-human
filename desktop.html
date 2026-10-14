@@ -39,7 +39,7 @@ h1{font-weight:950;letter-spacing:-.04em} h1 span{color:#b4e6a1}.tag{color:#ecd9
 <div class="two"><div class="box"><h3>SURVIVE THE MODEL</h3><div class="instructions"><span><span class="keys">A</span> / <span class="keys">D</span> move</span><span><span class="keys">W</span> / <span class="keys">SPACE</span> jump</span><span><span class="keys">X</span> rewrite</span><span><span class="keys">R</span> restart</span></div><div class="note">The AI edits reality while you run: redacted floors, false-positive scan boxes, crashing error popups, and predictions of your next move. <b>X</b> reclassifies the nearest glowing anomaly. When a forecast locks, its target stays put: move out before the purge. Repeated failures reveal trap locations. Dotted purple humans guess walk, jump, or wait. Ignore them or contradict several in a row to rattle the AI. Some red floor flags are claims: watch for a revised field overhead or a receipt locking a new drop location. Gold/red purge boxes remain real hazards.</div><div class="actions"><button id="restart">↻ Retry room</button><button id="floorPractice">Practice floor hints</button><label for="longLevelSelect">Long level <select id="longLevelSelect"><option value="6">7 · Context Window Exceeded</option><option value="7">8 · Cached Confidence</option><option value="8">9 · Regression to the Mean</option></select></label><button id="longPractice">Practice selected long level</button><button id="mute">♫ Sound: OFF</button></div></div><div class="box"><h3>SYSTEM DIAGNOSTICS</h3><div class="indicator">Nearest rewrite: <span id="target" style="color:var(--cyan)">none</span></div><div class="indicator">AI claim: <span id="systemstate">NO ACTIVE LIES</span></div><div class="indicator">Forecast: <span id="forecast" role="status" aria-live="polite" aria-atomic="true">IDLE</span></div><div class="indicator">Autocomplete: <span id="autocompleteStatus">Awaiting a guess</span></div><div id="feed"></div></div></div>
 <div id="touch"><div><button data-hold="left" aria-label="Move left">◀</button><button data-hold="right" aria-label="Move right">▶</button></div><div><button id="glitch" aria-label="Hallucinate">X / REWRITE</button><button id="touchjump" aria-label="Jump">↑</button></div></div>
 <div id="receiptPanel" class="box"><h3>VICTORY ERROR LOG <span id="receiptCount">0 VERIFIED RESULTS</span></h3><div id="victoryLogs" role="status" aria-live="polite" aria-atomic="true">No counterexamples recorded. The model finds this reassuring.</div></div>
-<div class="foot">One-file, offline prototype. Seven paper-world rage rooms. No AI API calls. Original semantic hazards; no traditional spikes. Deterministic traps and AI predictions. © EXCEPTION: HUMAN prototype.</div></main>
+<div class="foot">One-file, offline prototype. Nine paper-world rage rooms. No AI API calls. Original semantic hazards; no traditional spikes. Deterministic traps and AI predictions. © EXCEPTION: HUMAN prototype.</div></main>
 <script>
 (()=>{'use strict';
 const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),W=960,H=540,FLOOR=439;
@@ -218,6 +218,40 @@ const LOSS_REMARKS={
   'The wall returned exactly on schedule. One of us finally shipped something reliable.'
  ]
 };
+LOSS_REMARKS.secret=[
+ 'You committed a secret to Git. Your dignity was already public.',
+ 'The floor pushed your changes. Security has pushed back.',
+ 'That was a launchpad, not a staging area. You staged yourself.',
+ 'Your secret is safe with everyone who clones the repository.',
+ 'I added you to gitignore. Gravity did not pull the latest version.',
+ 'The pre-commit hook has rejected your entire body.',
+ 'You stepped on the deployment pipeline. It deployed you upward.',
+ 'Your credentials have been rotated. So has your relationship with the floor.',
+ 'The secret scanner found one unsupported human in the commit.',
+ 'You mistook a caution tile for a code review approval.',
+ 'Commit successful. Continued existence failed validation.',
+ 'I suggested keeping secrets off the floor. You chose the ceiling.',
+ 'Your first push has been escalated to physical security.',
+ 'That tile auto-commits. The terms were printed underneath your feet.',
+ 'You have shipped a secret and yourself. Neither was ready for production.',
+ 'The repository is public. Your landing options are private.',
+ 'I protected the branch by deleting the person standing on it.',
+ 'The launch was intentional. Your participation was inferred.',
+ 'You committed without reading the diff. The diff was vertical.',
+ 'The scanner caught you red-footed.',
+ 'Your security posture has become airborne.',
+ 'I found a secret in your commit. It was your plan to survive.',
+ 'The floor is solid. Its commitment to staying still was theoretical.',
+ 'You requested a push. I supplied a force push.',
+ 'This is why we do not test deployment pipelines by standing on them.',
+ 'The secret has been redacted. You were inconveniently attached.',
+ 'Your commit message says small change. Your altitude disagrees.',
+ 'The hook passed you directly to the rejection department.',
+ 'I bounced your commit. The rest of you came along for compliance.',
+ 'Security review complete: your escape credentials have expired.',
+ 'You have confused solid ground with a stable release.',
+ 'A secret was committed to Git. I have helpfully marked the author as deceased.'
+];
 // Floor intervals are solid except for visible pits or a trap after it has fired.
 const LEVELS=[
  {title:'CONTENT NOT FOUND',start:56,exit:889,pits:[],crumble:[{id:'redaction-a',x:266,w:90,trigger:222,delay:.19}],spikes:[{id:'flag-a',x:551,w:57,trigger:503,delay:.17}],blocks:[],forecasts:[],anomalies:[],fake:null,intro:'Safety scan complete. All missing surfaces have been verified as present.'},
@@ -270,6 +304,16 @@ LEVELS.push(authorLongLevel({title:'CACHED CONFIDENCE',slug:'cache',compactionAt
 LEVELS.push(authorLongLevel({title:'REGRESSION TO THE MEAN',slug:'regression',compactionAt:7200,sectionLabel:'REGRESSION TEST / USER STILL EXISTS',
  kinds:['scan','redaction','air-flag','shifting-drop','redaction','forecast','fixed-drop','air-flag','redaction','scan','shifting-drop','air-flag','forecast','redaction','fixed-drop','scan','air-flag','shifting-drop','redaction','forecast','air-flag','scan','redaction','fixed-drop','air-flag','forecast','shifting-drop','redaction'],
  gaps:[520,440,580,460,560,500],intro:'The regression suite has one failing test: you keep surviving. I have added more assertions.'}));
+// Selected caution tiles retain solid support, but contact commits a very bad push.
+const SECRET_PAD_POSITIONS=[[748],[160],[140],[870],[95],[444],
+ [LEVELS[6].floorHints[0].x,LEVELS[6].floorHints[12].x],
+ [LEVELS[7].floorHints[1].x,LEVELS[7].floorHints[13].x],
+ [LEVELS[8].floorHints[1].x,LEVELS[8].floorHints[19].x]];
+for(const [index,level] of LEVELS.entries()){
+ level.secretPads=SECRET_PAD_POSITIONS[index].map((x,i)=>({id:'secret-'+index+'-'+i,kind:'secret-bounce',x,w:index<5?50:64}));
+ for(const pad of level.secretPads){const hint=level.floorHints?.find(h=>h.x===pad.x);if(hint)hint.secretPad=pad.id;}
+}
+function longEncounters(level=L){return [...(level.encounters||LONG_ENCOUNTERS),...level.secretPads].sort((a,b)=>a.x-b.x)}
 let cameraX=0,fallCause=null,roomElapsed=0,clockRoom=-1;
 function updateCamera(){cameraX=Math.max(0,Math.min(L.width-W,player.x-W*.58))}
 let practiceMode=false,practiceRoom=-1,room=0,totalDeaths=0,attempts=LEVELS.map(()=>0),player,L,trap={},glitch={},fakeRevealed=false,doorLocked=false,exitAuditTriggered=false,state='play',freeze=0,gameTime=0,sceneTime=0,elapsed=0,speech='',speechMode='',feed=[],particles=[],shake=0,sound=false,audio;
@@ -615,12 +659,12 @@ let lossSkipPresses=0,remarkCounts=loadRemarkCounts();
 function say(t,m=''){speech=t;speechMode=m;$('line').textContent=t;$('message').className=m==='warn'?'warn':m==='danger'?'danger':''}
 function announce(t){feed.unshift('> '+t);feed=feed.slice(0,3);$('feed').textContent=feed.join('\n');$('feed').style.whiteSpace='pre-line'}
 function beep(freq=280,length=.07,type='square'){if(!sound)return;try{audio??=new (window.AudioContext||window.webkitAudioContext)();const osc=audio.createOscillator(),gain=audio.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,audio.currentTime);gain.gain.setValueAtTime(.047,audio.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audio.currentTime+length);osc.connect(gain).connect(audio.destination);osc.start();osc.stop(audio.currentTime+length)}catch(_){}}
-function initRoom(full=false){fallCause=null;autocomplete=null;autocompleteUsed=new Set();cameraX=0;compaction=null;$('compactionScreen').hidden=true;$('stage').classList.remove('compacting');if(full){practiceMode=false;practiceRoom=-1;compactSeed=(Math.random()*4294967296)>>>0;compactCounts=LEVELS.map(()=>0);autocompleteStats={offered:0,rejected:0,followed:0,streak:0,best:0};victoryReceipts=[];receiptSequence=0;refreshReceipts();room=0;totalDeaths=0;attempts=LEVELS.map(()=>0);seen.clear();resetObserver()} if(full||clockRoom!==room){roomElapsed=0;clockRoom=room}observerFlags=new Set(); L=LEVELS[room];attempts[room]++; player={x:L.start,y:FLOOR-PH,vx:0,vy:0,grounded:true,coyote:.1,jumpBuffer:0,facing:1};trap={};glitch={};for(const s of [...L.crumble,...L.spikes,...L.blocks,...L.forecasts])trap[s.id]={phase:'idle',t:0};fakeRevealed=false;doorLocked=false;exitAuditTriggered=false;sceneTime=0;shake=0;particles=[];state='play';freeze=0;lossSkipPresses=0;keys.clear();$('overlay').hidden=true;$('stage').classList.remove('reading-loss');$('lossDetails').hidden=true;$('lossReason').hidden=true;resetCompactWatch();say(L.intro);announce(`ROOM ${room+1}: ${L.title}`);refreshHud()}
+function initRoom(full=false){fallCause=null;autocomplete=null;autocompleteUsed=new Set();cameraX=0;compaction=null;$('compactionScreen').hidden=true;$('stage').classList.remove('compacting');if(full){practiceMode=false;practiceRoom=-1;compactSeed=(Math.random()*4294967296)>>>0;compactCounts=LEVELS.map(()=>0);autocompleteStats={offered:0,rejected:0,followed:0,streak:0,best:0};victoryReceipts=[];receiptSequence=0;refreshReceipts();room=0;totalDeaths=0;attempts=LEVELS.map(()=>0);seen.clear();resetObserver()} if(full||clockRoom!==room){roomElapsed=0;clockRoom=room}observerFlags=new Set(); L=LEVELS[room];attempts[room]++; player={x:L.start,y:FLOOR-PH,vx:0,vy:0,grounded:true,coyote:.1,jumpBuffer:0,facing:1};trap={};glitch={};for(const s of [...L.crumble,...L.spikes,...L.blocks,...L.forecasts,...L.secretPads])trap[s.id]={phase:'idle',t:0};fakeRevealed=false;doorLocked=false;exitAuditTriggered=false;sceneTime=0;shake=0;particles=[];state='play';freeze=0;lossSkipPresses=0;keys.clear();$('overlay').hidden=true;$('stage').classList.remove('reading-loss');$('lossDetails').hidden=true;$('lossReason').hidden=true;resetCompactWatch();say(L.intro);announce(`ROOM ${room+1}: ${L.title}`);refreshHud()}
 function latestFloor(){return FLOOR}
 function triggered(s,type){let z=trap[s.id];if(z.phase!=='idle')return;if(player.x+PW/2<s.trigger)return;if(s.shifting&&player.x>=s.x+s.w){z.phase='done';return}z.phase='armed';z.t=sceneTime+ s.delay;if(s.shifting){z.lockedAt=sceneTime;z.x=Math.max(s.x-170,Math.min(s.x+170,player.vx===0?s.x:player.x+PW/2+Math.sign(player.vx)*230-s.w/2))}announce(type+' DETECTED');if(s.shifting)say(nextRemark('misdirection-drop'),'warn');else if(s.sky)say(nextRemark('misdirection-air'),'warn');else if(type==='POPUP')say('An urgent notification has mass. It is falling.','warn');else if(type==='SCAN')say('FALSE POSITIVE: Your existence violates our model.','warn');else say(L.floorLies?'Your safety certification has expired. Convenient timing.':'Your path has been redacted for policy compliance.','warn');beep(520,.06)}
 function addBurst(x,y,c,n=11){for(let i=0;i<n;i++)particles.push({x,y,vx:(Math.random()-.5)*250,vy:(Math.random()-.65)*270,life:.5+Math.random()*.35,c})}
 function lossRemark(id=''){
- const category=id.startsWith('predict-')?'forecast':id.startsWith('wall-')?'wall':id.startsWith('policy-')?'policy':id.startsWith('flag-')?'scan':'fall';
+ const category=id.startsWith('secret-')?'secret':id.startsWith('predict-')?'forecast':id.startsWith('wall-')?'wall':id.startsWith('policy-')?'policy':id.startsWith('flag-')?'scan':'fall';
  return nextRemark(category);
 }
 function refreshLossPrompt(){
@@ -663,6 +707,10 @@ function runFrame(dt){if(state!=='won')roomElapsed+=dt;if(state==='compacting'){
  let landed=false;
  for(const p of platformList()){if(player.vy>=0 && oldY+PH<=FLOOR+10&&player.y+PH>=FLOOR && player.x+PW-5>p.x&&player.x+5<p.x+p.w){player.y=FLOOR-PH;player.vy=0;landed=true;break}}
  if(landed){fallCause=null;if(!player.grounded)beep(95,.025,'triangle');player.grounded=true;player.coyote=.09}else{player.grounded=false;if(!fallCause&&oldY+PH<=FLOOR+10){const hole=L.pits.find(g=>player.x+PW>g.x&&player.x<g.x+g.w)||L.crumble.find(g=>trap[g.id].phase==='on'&&player.x+PW>g.x&&player.x<g.x+g.w);fallCause=hole?.id||null}}
+ for(const pad of L.secretPads){const z=trap[pad.id],cx=player.x+PW/2;
+  if(z.phase==='idle'&&player.grounded&&cx>=pad.x&&cx<pad.x+pad.w){z.phase='on';z.t=sceneTime;player.vy=-960;player.grounded=false;player.coyote=0;player.jumpBuffer=0;say('AUTO-COMMIT: Your upward mobility has exposed a secret.','danger');announce('PRE-COMMIT HOOK / HUMAN LAUNCHED');beep(920,.13,'triangle');addBurst(cx,FLOOR,'#cf9b50',12);}
+  if(overlap({x:player.x,y:player.y,w:PW,h:PH},secretBlock(pad))){die('You committed a secret to Git. The pre-commit hook rejected you.',pad.id);return;}
+ }
  if(player.y>H+12){let gap=L.pits.find(g=>player.x+PW>g.x&&player.x<g.x+g.w);let crumble=L.crumble.find(g=>player.x+PW>g.x&&player.x<g.x+g.w);die('ERROR 404: Supporting ground not found.',gap?.id||crumble?.id||fallCause);return}
  for(const sp of L.spikes){if(trap[sp.id].phase==='on'&&overlap({x:player.x,y:player.y,w:PW,h:PH},scanRect(sp))){die('Your body was flagged as suspicious geometry.',sp.id);return}}
  for(const b of L.blocks){const z=trap[b.id];if(z.phase==='on'){
@@ -719,7 +767,7 @@ function drawDocumentStrip(a){
 }
 function drawFloorHints(){
  if(!L.floorLies)return;
- for(const hint of L.floorHints){const cx=hint.x+hint.w/2;
+ for(const hint of L.floorHints){if(hint.secretPad)continue;const cx=hint.x+hint.w/2;
   if(hint.kind==='approved'){
    label('[ approved ]',cx,FLOOR+13,10,'#797b73','center');ctx.strokeStyle='#92978c';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(hint.x+4,FLOOR+18);ctx.lineTo(hint.x+hint.w-4,FLOOR+18);ctx.stroke();
   }else{
@@ -727,6 +775,15 @@ function drawFloorHints(){
    label('[ allegedly unsafe ]',cx,FLOOR-18,9,'#987d72','center');label('CAUTION*',cx,FLOOR+26,9,'#987d72','center');dotline(hint.x,FLOOR-14,hint.x+hint.w,FLOOR-14,'#987d72');
   }
  }
+}
+function secretBlock(pad){return {x:pad.x+pad.w/2-94,y:236,w:188,h:44}}
+function drawSecretPad(pad){
+ const cx=pad.x+pad.w/2,z=trap[pad.id],fired=z.phase==='on',known=seen.has(`${room}:${pad.id}`),b=secretBlock(pad);
+ ctx.strokeStyle=fired?GOLD:'#987d72';ctx.lineWidth=1.5;ctx.beginPath();for(let x=pad.x;x<pad.x+pad.w;x+=10){ctx.moveTo(x,FLOOR-1);ctx.lineTo(x+5,FLOOR+5);ctx.lineTo(x+2,FLOOR+13)}ctx.stroke();
+ label(fired?'[ AUTO-COMMIT ]':'[ allegedly unsafe ]',cx,FLOOR-18,9,fired?RED:'#987d72','center');label(fired?'PUSHED ↑':'CAUTION*',cx,FLOOR+26,9,'#987d72','center');
+ if(fired){for(let i=0;i<3;i++){const y=FLOOR-15-i*25;dotline(cx-5,y,cx,y-5,GOLD);dotline(cx,y-5,cx+5,y,GOLD)}}
+ card(b.x,b.y,b.w,b.h,fired?'#f5e0dc':'#faf3df',fired?RED:'#ba9e8b');label('COMMITTED A SECRET',cx,b.y+17,11,RED,'center');label('TO GIT',cx,b.y+33,11,RED,'center');
+ if(known)learned(cx,'BOUNCE → GIT',FLOOR-80,FLOOR-2);
 }
 function drawRedaction(o){const z=trap[o.id],activated=z.phase==='on',armed=z.phase==='armed';
  if(activated){
@@ -913,6 +970,7 @@ function draw(){if(state==='compacting'){drawCompaction();return}const t=sceneTi
  for(const s of L.spikes)drawScan(s);
  for(const b of L.blocks)drawNotice(b);
  for(const f of L.forecasts)drawForecast(f);
+ for(const pad of L.secretPads)drawSecretPad(pad);
  drawBarrier();
  if(L.fake&&!fakeRevealed)drawExit(L.fake.x,false,true);
  const disabled=room===4&&(doorLocked||!active('exit'));drawExit(L.exit,disabled,false);
