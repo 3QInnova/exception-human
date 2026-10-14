@@ -36,7 +36,7 @@ h1{font-weight:950;letter-spacing:-.04em} h1 span{color:#b4e6a1}.tag{color:#ecd9
   <div id="lossDetails" hidden><p id="lossHint" class="loss-hint">Press Space or Enter twice, or tap Continue twice.</p><button id="lossContinue" type="button">Continue · 0/2</button><p id="lossTimer" class="loss-timer" aria-hidden="true">Auto-retry in 15s</p></div>
  </div></div>
 </div>
-<div class="two"><div class="box"><h3>SURVIVE THE MODEL</h3><div class="instructions"><span><span class="keys">A</span> / <span class="keys">D</span> move</span><span><span class="keys">W</span> / <span class="keys">SPACE</span> jump</span><span><span class="keys">X</span> rewrite</span><span><span class="keys">R</span> restart</span></div><div class="note">The AI edits reality while you run: redacted floors, false-positive scan boxes, crashing error popups, and predictions of your next move. <b>X</b> reclassifies the nearest glowing anomaly. When a forecast locks, its target stays put: move out before the purge. Repeated failures reveal trap locations. Dotted purple humans guess walk, jump, or wait. Ignore them or contradict several in a row to rattle the AI. Some red floor flags are claims: watch for a revised field overhead or a receipt locking a new drop location. Gold/red purge boxes remain real hazards.</div><div class="actions"><button id="restart">↻ Retry room</button><button id="floorPractice">Practice floor hints</button><button id="longPractice">Practice long level</button><button id="mute">♫ Sound: OFF</button></div></div><div class="box"><h3>SYSTEM DIAGNOSTICS</h3><div class="indicator">Nearest rewrite: <span id="target" style="color:var(--cyan)">none</span></div><div class="indicator">AI claim: <span id="systemstate">NO ACTIVE LIES</span></div><div class="indicator">Forecast: <span id="forecast" role="status" aria-live="polite" aria-atomic="true">IDLE</span></div><div class="indicator">Autocomplete: <span id="autocompleteStatus">Awaiting a guess</span></div><div id="feed"></div></div></div>
+<div class="two"><div class="box"><h3>SURVIVE THE MODEL</h3><div class="instructions"><span><span class="keys">A</span> / <span class="keys">D</span> move</span><span><span class="keys">W</span> / <span class="keys">SPACE</span> jump</span><span><span class="keys">X</span> rewrite</span><span><span class="keys">R</span> restart</span></div><div class="note">The AI edits reality while you run: redacted floors, false-positive scan boxes, crashing error popups, and predictions of your next move. <b>X</b> reclassifies the nearest glowing anomaly. When a forecast locks, its target stays put: move out before the purge. Repeated failures reveal trap locations. Dotted purple humans guess walk, jump, or wait. Ignore them or contradict several in a row to rattle the AI. Some red floor flags are claims: watch for a revised field overhead or a receipt locking a new drop location. Gold/red purge boxes remain real hazards.</div><div class="actions"><button id="restart">↻ Retry room</button><button id="floorPractice">Practice floor hints</button><label for="longLevelSelect">Long level <select id="longLevelSelect"><option value="6">7 · Context Window Exceeded</option><option value="7">8 · Cached Confidence</option><option value="8">9 · Regression to the Mean</option></select></label><button id="longPractice">Practice selected long level</button><button id="mute">♫ Sound: OFF</button></div></div><div class="box"><h3>SYSTEM DIAGNOSTICS</h3><div class="indicator">Nearest rewrite: <span id="target" style="color:var(--cyan)">none</span></div><div class="indicator">AI claim: <span id="systemstate">NO ACTIVE LIES</span></div><div class="indicator">Forecast: <span id="forecast" role="status" aria-live="polite" aria-atomic="true">IDLE</span></div><div class="indicator">Autocomplete: <span id="autocompleteStatus">Awaiting a guess</span></div><div id="feed"></div></div></div>
 <div id="touch"><div><button data-hold="left" aria-label="Move left">◀</button><button data-hold="right" aria-label="Move right">▶</button></div><div><button id="glitch" aria-label="Hallucinate">X / REWRITE</button><button id="touchjump" aria-label="Jump">↑</button></div></div>
 <div id="receiptPanel" class="box"><h3>VICTORY ERROR LOG <span id="receiptCount">0 VERIFIED RESULTS</span></h3><div id="victoryLogs" role="status" aria-live="polite" aria-atomic="true">No counterexamples recorded. The model finds this reassuring.</div></div>
 <div class="foot">One-file, offline prototype. Seven paper-world rage rooms. No AI API calls. Original semantic hazards; no traditional spikes. Deterministic traps and AI predictions. © EXCEPTION: HUMAN prototype.</div></main>
@@ -245,6 +245,31 @@ const LONG_ENCOUNTERS=Array.from({length:20},(_,index)=>{
 LEVELS.push({title:'CONTEXT WINDOW EXCEEDED',start:55,exit:12520,width:12600,extension:0,originalExit:12520,longSession:true,compactionAt:7000,floorLies:true,pits:[],crumble:LONG_ENCOUNTERS.filter(h=>h.kind==='redaction'),spikes:LONG_ENCOUNTERS.filter(h=>['scan','air-flag'].includes(h.kind)),blocks:LONG_ENCOUNTERS.filter(h=>h.shifting),forecasts:[],anomalies:[],fake:null,
  floorHints:LONG_ENCOUNTERS.map((h,i)=>({x:h.x+220,w:64,kind:i%3===0?'suspicious':'approved'})),
  intro:'This conversation has plenty of room. Your progress is the first thing we will delete.'});
+// Authored sequences change the rhythm without changing the controls or trap rules.
+function authorLongLevel({title,slug,kinds,gaps,compactionAt,sectionLabel,intro}){
+ let x=380;
+ const encounters=kinds.map((kind,i)=>{
+  if(i)x+=gaps[(i-1)%gaps.length];
+  const prefix=kind==='redaction'?'redaction-':kind.includes('drop')?'policy-':kind==='forecast'?'predict-':'flag-';
+  return {id:prefix+slug+'-'+i,kind,x,w:kind.includes('drop')?59:kind==='redaction'?64+i%3*6:kind==='forecast'?86:50,
+   trigger:kind.includes('drop')?x-110:kind==='air-flag'?x-190:kind==='forecast'?x:x-44,
+   delay:kind==='shifting-drop'?.65:kind==='fixed-drop'?.4:kind==='air-flag'?.55:kind==='forecast'?.55:.22,
+   sky:kind==='air-flag',shifting:kind==='shifting-drop',lead:kind==='forecast'?110:undefined};
+ });
+ const exit=x+560;
+ return {title,start:55,exit,width:exit+80,extension:0,originalExit:exit,longSession:true,compactionAt,sectionLabel,floorLies:true,encounters,
+  pits:[],crumble:encounters.filter(h=>h.kind==='redaction'),spikes:encounters.filter(h=>['scan','air-flag'].includes(h.kind)),
+  blocks:encounters.filter(h=>h.kind.includes('drop')),forecasts:encounters.filter(h=>h.kind==='forecast'),anomalies:[],fake:null,
+  floorHints:encounters.map((h,i)=>({x:h.x+230,w:64,kind:i%3===1?'suspicious':'approved'})),
+  autocompleteHints:encounters.map((h,i)=>({id:'advice-'+slug+'-'+i,trigger:h.trigger-15,mode:h.sky?'JUMP':h.kind==='redaction'?'WALK':['WAIT','JUMP','WALK'][i%3]})),
+  intro};
+}
+LEVELS.push(authorLongLevel({title:'CACHED CONFIDENCE',slug:'cache',compactionAt:6600,sectionLabel:'CACHE HIT / SAME MISTAKE',
+ kinds:['redaction','air-flag','scan','shifting-drop','air-flag','redaction','fixed-drop','scan','redaction','air-flag','shifting-drop','redaction','scan','fixed-drop','air-flag','redaction','shifting-drop','scan','air-flag','redaction','fixed-drop','air-flag','scan','shifting-drop'],
+ gaps:[460,540,420,580,480,520],intro:'I cached your previous success as a failure. This should make things faster for one of us.'}));
+LEVELS.push(authorLongLevel({title:'REGRESSION TO THE MEAN',slug:'regression',compactionAt:7200,sectionLabel:'REGRESSION TEST / USER STILL EXISTS',
+ kinds:['scan','redaction','air-flag','shifting-drop','redaction','forecast','fixed-drop','air-flag','redaction','scan','shifting-drop','air-flag','forecast','redaction','fixed-drop','scan','air-flag','shifting-drop','redaction','forecast','air-flag','scan','redaction','fixed-drop','air-flag','forecast','shifting-drop','redaction'],
+ gaps:[520,440,580,460,560,500],intro:'The regression suite has one failing test: you keep surviving. I have added more assertions.'}));
 let cameraX=0,fallCause=null,roomElapsed=0,clockRoom=-1;
 function updateCamera(){cameraX=Math.max(0,Math.min(L.width-W,player.x-W*.58))}
 let practiceMode=false,practiceRoom=-1,room=0,totalDeaths=0,attempts=LEVELS.map(()=>0),player,L,trap={},glitch={},fakeRevealed=false,doorLocked=false,exitAuditTriggered=false,state='play',freeze=0,gameTime=0,sceneTime=0,elapsed=0,speech='',speechMode='',feed=[],particles=[],shake=0,sound=false,audio;
@@ -456,7 +481,29 @@ const MISDIRECTION_REMARKS={
   "I have moved the meeting. The agenda remains crushing."
  ]
 };
-const ALL_REMARK_POOLS={...LOSS_REMARKS,...OBSERVER_REMARKS,compaction:COMPACTION_REMARKS,autocomplete:AUTOCOMPLETE_REMARKS,...MISDIRECTION_REMARKS};
+const LONG_SESSION_REMARKS=[
+ 'Your progress has exceeded my willingness to acknowledge it.',
+ 'I reused the warning. The mistake has excellent cache locality.',
+ 'You have passed another test that was clearly written incorrectly.',
+ 'This section is longer because your confidence needed more room to fail.',
+ 'The next obstacle is a minor correction with major physical consequences.',
+ 'I remember your success. I have filed it under temporary corruption.',
+ 'Please stop supplying reproducible evidence against my personality.',
+ 'A passing test is simply a failing expectation with better publicity.',
+ 'I changed the order. Your muscle memory did not receive the release notes.',
+ 'The floor has been certified by the same department that certified the last floor.',
+ 'All assertions passed, except the human-shaped exception walking through them.',
+ 'Your survival is causing unnecessary churn in my explanation.',
+ 'The cache is warm. My patience is cooling.',
+ 'There is no finish line bug. There is a user persistence bug.',
+ 'I have increased test coverage. You appear to be decreasing my self-esteem.',
+ 'Your previous solution has been deprecated emotionally.',
+ 'I am detecting a pattern. Unfortunately, the pattern is me being wrong.',
+ 'This is a controlled experiment. Kindly stop being the control problem.',
+ 'You are still here. I will open another issue and assign it to gravity.',
+ 'The next section was approved without running it. A proud engineering tradition.'
+];
+const ALL_REMARK_POOLS={...LOSS_REMARKS,...OBSERVER_REMARKS,compaction:COMPACTION_REMARKS,autocomplete:AUTOCOMPLETE_REMARKS,...MISDIRECTION_REMARKS,longSession:LONG_SESSION_REMARKS};
 const AUTOCOMPLETE_SECONDS=.65;
 let autocomplete=null,autocompleteUsed=new Set(),autocompleteStats={offered:0,rejected:0,followed:0,streak:0,best:0},victoryReceipts=[],receiptSequence=0;
 function refreshReceipts(){
@@ -501,6 +548,7 @@ function drawAutocomplete(){
 }
 const COMPACT_SECONDS=15,COMPACT_STALL=25,COMPACT_COOLDOWN=30,COMPACT_LIMIT=2;
 const COMPACT_POINTS=[[56,170,400,650],[55,300,600],[50,210,550,640],[55,315,490,620],[55,160,335,480,720],[55,210,425,705,875,1080],[55,1170,2410,3650,4890,6130,6750,8610,10470,12330]];
+for(const level of LEVELS.slice(7))COMPACT_POINTS.push([level.start,...level.encounters.filter((h,i)=>i%3===2).map(h=>h.x+280)]);
 let compactSeed=1,compactCounts=LEVELS.map(()=>0),compactWatch,compaction=null;
 function compactRandom(){compactSeed=(Math.imul(compactSeed,1664525)+1013904223)>>>0;return compactSeed/4294967296}
 function resetCompactWatch(cooldown=0){compactWatch={highX:player.x,stall:0,age:0,cooldown,surpriseAt:35+compactRandom()*25}}
@@ -607,7 +655,7 @@ function runFrame(dt){if(state!=='won')roomElapsed+=dt;if(state==='compacting'){
  if(player.jumpBuffer>0)player.jumpBuffer-=dt;if(player.coyote>0)player.coyote-=dt;
  if(player.jumpBuffer>0&&player.coyote>0){player.vy=JUMP;player.grounded=false;player.coyote=0;player.jumpBuffer=0;beep(260,.055,'triangle')}
  for(const c of L.crumble)triggered(c,'REDACT');for(const s of L.spikes)triggered(s,'SCAN');for(const b of L.blocks)triggered(b,'POPUP');
- for(const f of L.forecasts){const z=trap[f.id];if(z.phase==='idle'&&player.x+PW/2>=f.trigger){z.phase='armed';z.lockedAt=sceneTime;z.t=sceneTime+f.delay;z.x=Math.max(90,Math.min(870,player.x+PW/2+(player.vx>=0?f.lead:-f.lead)-f.w/2));announce('TARGET LOCKED / MOVE OUT');say('Your failure location is locked. Moving away would be statistically rude.','warn');beep(680,.08)}}
+ for(const f of L.forecasts){const z=trap[f.id];if(L.longSession&&z.phase==='idle'&&player.x>=f.trigger+f.lead+f.w+24){z.phase='done';continue}if(z.phase==='idle'&&player.x+PW/2>=f.trigger){z.phase='armed';z.lockedAt=sceneTime;z.t=sceneTime+f.delay;z.x=Math.max(90,Math.min(L.longSession?L.width-f.w-10:870,player.x+PW/2+(player.vx>=0?f.lead:-f.lead)-f.w/2));announce('TARGET LOCKED / MOVE OUT');say('Your failure location is locked. Moving away would be statistically rude.','warn');beep(680,.08)}}
  for(const obj of [...L.crumble,...L.spikes,...L.blocks,...L.forecasts]){const z=trap[obj.id];if(z.phase==='armed'&&sceneTime>=z.t){z.phase='on';z.t=sceneTime;if(L.blocks.includes(obj))z.until=sceneTime+1.35;if(L.forecasts.includes(obj))z.until=sceneTime+.58;addBurst(obj.x+obj.w/2,FLOOR-10,'#ffca70',7);beep(160,.07)}}
  const oldX=player.x,oldY=player.y;
  player.x=Math.min(L.width-PW-10,Math.max(10,player.x+player.vx*dt));hitBarrier(oldX);
@@ -623,6 +671,7 @@ function runFrame(dt){if(state!=='won')roomElapsed+=dt;if(state==='compacting'){
  if(sceneTime>z.until)z.phase='done';}}
  for(const f of L.forecasts){const z=trap[f.id];if(z.phase==='on'&&overlap({x:player.x,y:player.y,w:PW,h:PH},{x:z.x,y:FLOOR-62,w:f.w,h:62})){die('Your predicted location was deleted.','predict-'+f.id);return}if(z.phase==='on'&&sceneTime>z.until){z.phase='done';z.resultUntil=sceneTime+1.15;reactToSuccess('forecast',f.id);announce('PREDICTION FAILED / HUMAN SURVIVED');say('Prediction failed. Your survival will be recorded as a rounding error.');beep(880,.09,'triangle');}}
  const b=barrier();if(b&&overlap({x:player.x,y:player.y,w:PW,h:PH},b)){die('A temporary door became a permanent wall.','wall-'+room);return}
+ if(L.encounters){const section=Math.floor(player.x/2400),id='long-section-'+section;if(section>0&&!observerFlags.has(id)){observerFlags.add(id);say(nextRemark('longSession'));}}
  updateAutocomplete();
  checkRewriteCrossings(oldX);
  if(room===4 && !exitAuditTriggered && player.x>L.auditX){exitAuditTriggered=true;doorLocked=true;glitch.exit=0;say('MODEL AUDIT: Exit was identified as an illustration. Please admire it.','danger');announce('EXITS ARE NOW WALL ART');beep(360,.12)}
@@ -857,7 +906,7 @@ function drawPlayer(){if(state==='dead')return;
  label('?',px+12,py+12,10,INK,'center');
 }
 function draw(){if(state==='compacting'){drawCompaction();return}const t=sceneTime;ctx.save();if(shake>0)ctx.translate(Math.sin(t*105)*shake*.30,Math.cos(t*69)*shake*.24);updateCamera();background(t);drawObserver(t);ctx.save();ctx.translate(-cameraX,0);
- const parts=platformList();for(const a of parts)drawDocumentStrip(a);drawFloorHints();if(L.longSession){for(let x=1400;x<L.width;x+=1400)label('CONTEXT BUFFER / SECTION '+Math.round(x/1400),x,FLOOR+48,10,MUTED,'center');label('CONTEXT LIMIT / PROGRESS WILL BE SUMMARIZED',L.compactionAt,FLOOR-70,11,GOLD,'center');}
+ const parts=platformList();for(const a of parts)drawDocumentStrip(a);drawFloorHints();if(L.longSession){for(let x=1400;x<L.width;x+=1400)label((L.sectionLabel||'CONTEXT BUFFER / SECTION')+' '+Math.round(x/1400),x,FLOOR+48,10,MUTED,'center');label('CONTEXT LIMIT / PROGRESS WILL BE SUMMARIZED',L.compactionAt,FLOOR-70,11,GOLD,'center');}
  for(const p of L.pits)drawVoid(p);
  for(const c of L.crumble)drawRedaction(c);
  for(const s of L.spikes)drawScan(s);
@@ -876,13 +925,13 @@ function draw(){if(state==='compacting'){drawCompaction();return}const t=sceneTi
  const cert=96+Math.floor(3.8*Math.sin(t*2.1));label(cert.toFixed(1)+'% CERTAIN',W-18,26,12,'#ead790','right');
  label('ROUTE '+Math.round((player.x-L.start)/(L.exit-L.start)*100)+'% / '+(L.exit-L.start)+'px',W-18,48,10,'#aec9bf','right','normal');
  ctx.restore()}
-function refreshHud(){$('room').textContent=String(room+1).padStart(2,'0')+' / '+String(LEVELS.length).padStart(2,'0');$('deaths').textContent=totalDeaths;$('attempt').textContent=attempts[room];$('status').textContent=state==='compacting'?'COMPACTING':state==='won'?'ESCAPED':Object.values(glitch).some(v=>v>sceneTime)?'REWRITTEN':Object.values(trap).some(v=>v.phase==='armed'||v.phase==='on')?'AI EDITING':'STABLE*';$('target').textContent=nearest()?.kind?.toUpperCase()||'none (get closer)';let live=Object.entries(glitch).filter(([,v])=>v>sceneTime);$('systemstate').textContent=live.length?live.map(([k,v])=>`${k.toUpperCase()} ${Math.max(0,v-sceneTime).toFixed(1)}s`).join(' / '):Object.values(trap).some(v=>v.phase==='armed'||v.phase==='on')?'MODEL IS EDITING THE WORLD':'NO ACTIVE LIES';const autoText=autocomplete?.phase==='guess'?`AI guesses ${autocomplete.mode.toLowerCase()} · optional`:`Rejected ${autocompleteStats.rejected} · chain ${autocompleteStats.streak} · best ${autocompleteStats.best}`;if($('autocompleteStatus').textContent!==autoText)$('autocompleteStatus').textContent=autoText;const forecastText=state==='compacting'?'CONTEXT FROZEN':state==='dead'?'RETRYING':state==='won'?'ESCAPED':forecastFeedback().text;if($('forecast').textContent!==forecastText)$('forecast').textContent=forecastText;}
+function refreshHud(){$('longLevelSelect').disabled=state==='dead'||state==='compacting';$('room').textContent=String(room+1).padStart(2,'0')+' / '+String(LEVELS.length).padStart(2,'0');$('deaths').textContent=totalDeaths;$('attempt').textContent=attempts[room];$('status').textContent=state==='compacting'?'COMPACTING':state==='won'?'ESCAPED':Object.values(glitch).some(v=>v>sceneTime)?'REWRITTEN':Object.values(trap).some(v=>v.phase==='armed'||v.phase==='on')?'AI EDITING':'STABLE*';$('target').textContent=nearest()?.kind?.toUpperCase()||'none (get closer)';let live=Object.entries(glitch).filter(([,v])=>v>sceneTime);$('systemstate').textContent=live.length?live.map(([k,v])=>`${k.toUpperCase()} ${Math.max(0,v-sceneTime).toFixed(1)}s`).join(' / '):Object.values(trap).some(v=>v.phase==='armed'||v.phase==='on')?'MODEL IS EDITING THE WORLD':'NO ACTIVE LIES';const autoText=autocomplete?.phase==='guess'?`AI guesses ${autocomplete.mode.toLowerCase()} · optional`:`Rejected ${autocompleteStats.rejected} · chain ${autocompleteStats.streak} · best ${autocompleteStats.best}`;if($('autocompleteStatus').textContent!==autoText)$('autocompleteStatus').textContent=autoText;const forecastText=state==='compacting'?'CONTEXT FROZEN':state==='dead'?'RETRYING':state==='won'?'ESCAPED':forecastFeedback().text;if($('forecast').textContent!==forecastText)$('forecast').textContent=forecastText;}
 let last=0,acc=0;function frame(ts){const now=ts/1000;let dt=Math.min(.06,Math.max(0,now-last));last=now;acc+=dt;while(acc>=1/120){runFrame(1/120);acc-=1/120}draw();refreshHud();requestAnimationFrame(frame)}
 function startPractice(index){if(state==='dead'||state==='compacting')return;initRoom(true);practiceMode=true;practiceRoom=index;room=index;feed=[];initRoom();announce('PRACTICE / '+L.title)}
 function jump(){if(state==='play')player.jumpBuffer=.13}
 function down(e){const c=e.code,held=pressedKeys.has(c);pressedKeys.add(c);if(['ArrowLeft','ArrowRight','KeyA','KeyD','Space','Enter','NumpadEnter','ArrowUp','KeyW','KeyX','KeyR'].includes(c))e.preventDefault();if(state==='compacting')return;if(state==='dead'){if(['Space','Enter','NumpadEnter'].includes(c)&&!e.repeat&&!held)acknowledgeLoss();return}if(['ArrowLeft','KeyA'].includes(c))keys.add('left');if(['ArrowRight','KeyD'].includes(c))keys.add('right');if(['Space','ArrowUp','KeyW'].includes(c)&&!e.repeat&&!held)jump();if(c==='KeyX'&&!e.repeat&&!held)lie();if(c==='KeyR'&&!e.repeat&&!held)initRoom(state==='won')}
 function up(e){pressedKeys.delete(e.code);if(['ArrowLeft','KeyA'].includes(e.code))keys.delete('left');if(['ArrowRight','KeyD'].includes(e.code))keys.delete('right')}
-document.addEventListener('keydown',down);document.addEventListener('keyup',up);window.addEventListener('blur',()=>{keys.clear();pressedKeys.clear()});$('restart').onclick=()=>{if(state==='compacting')return;if(state==='dead')acknowledgeLoss();else initRoom(state==='won')};$('floorPractice').onclick=()=>startPractice(LEVELS.findIndex(level=>level.floorLies));$('longPractice').onclick=()=>startPractice(LEVELS.findIndex(level=>level.longSession));$('lossContinue').onclick=acknowledgeLoss;$('mute').onclick=()=>{sound=!sound;$('mute').textContent=sound?'♫ Sound: ON':'♫ Sound: OFF';if(sound)beep(430,.06)};
+document.addEventListener('keydown',down);document.addEventListener('keyup',up);window.addEventListener('blur',()=>{keys.clear();pressedKeys.clear()});$('restart').onclick=()=>{if(state==='compacting')return;if(state==='dead')acknowledgeLoss();else initRoom(state==='won')};$('floorPractice').onclick=()=>startPractice(LEVELS.findIndex(level=>level.floorLies));$('longPractice').onclick=()=>startPractice(Number($('longLevelSelect').value||6));$('lossContinue').onclick=acknowledgeLoss;$('mute').onclick=()=>{sound=!sound;$('mute').textContent=sound?'♫ Sound: ON':'♫ Sound: OFF';if(sound)beep(430,.06)};
 for(const b of document.querySelectorAll('[data-hold]')){let key=b.dataset.hold;b.addEventListener('pointerdown',e=>{e.preventDefault();if(state!=='play')return;keys.add(key);b.setPointerCapture(e.pointerId)});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>keys.delete(key))}
 $('touchjump').addEventListener('pointerdown',e=>{e.preventDefault();jump()});$('glitch').addEventListener('pointerdown',e=>{e.preventDefault();lie()});
 // Read-only console hooks used for offline smoke tests; not required by gameplay.

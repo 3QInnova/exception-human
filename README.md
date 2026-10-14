@@ -20,6 +20,6 @@ Tell Will your device/browser, where you got stuck, what felt funny or unfair, a
 
 ## Scope
 
-The iPhone Safari controls and zoom fixes have been confirmed by the project owner. WebKit checks and an ordinary-input route through all seven rooms passed. Android and native iOS builds have not been tested.
+The iPhone Safari controls and zoom fixes have been confirmed by the project owner. WebKit checks and an ordinary-input route through all nine rooms passed. Android and native iOS builds have not been tested.
 
 The repository and Pages link are public; share the link with the selected friend group. Crawler metadata is not access control.
