@@ -356,8 +356,10 @@ function rayGlassInterval(a,b,g){let lo=0,hi=1;const dx=b.x-a.x,dy=b.y-a.y;
 }
 function glassSight(time=sceneTime,offset=cameraX,width=canvas.width||W){
  if(!L.glassTest)return [];const mobile=width<=640,eye={x:offset+(mobile?550:785),y:mobile?240:173};
- const scan=(Math.sin(time*2.2)+1)/2,ends=[{x:player.x+PW/2,y:player.y+PH/2},
- ...[0].map(phase=>({x:offset+20+((scan+phase)%1)*(width-40),y:FLOOR+78}))];
+ const target={x:player.x+PW/2,y:player.y+PH/2},dy=target.y-eye.y;
+ // Continue the same player-aimed line through the human to intersect support below them.
+ const extension=dy>1?Math.max(1,(FLOOR+78-eye.y)/dy):1;
+ const ends=[{x:eye.x+(target.x-eye.x)*extension,y:eye.y+dy*extension}];
  return ends.map(b=>({a:eye,b,hits:L.glass.map(g=>rayGlassInterval(eye,b,g)).filter(Boolean).sort((a,b)=>a.lo-b.lo)}));
 }
 function glassReveal(g,time=sceneTime){if(!g.hidden)return 1;return Math.max(0,1-(time-(glassGlimpses[g.id]??-10))/1.2)}

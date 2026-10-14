@@ -12,7 +12,7 @@ Publish from `main`, repository root. Playtest URL: https://3qinnova.com/excepti
 
 PC: A/D or arrows move, Space jumps, X rewrites, R retries. iPhone: landscape Safari, left thumb movement, right thumb Jump/Rewrite. Tap an AI remark to pause and read. The menu offers floor-hint and long-level practice. Some caution tiles bounce you into a Git secret-scanning block; jump over those tiles.
 
-Loss reading lasts 15 seconds; two Continue taps skip it. Compaction deliberately interrupts progress for 15 seconds. Random AI billing dialogs ask for imaginary credits or renewals; choose the free plan and confirm to resume. No real payments are involved. AI billing interrupts at most once per level across retries and compaction. There are fifteen rooms, including nine long levels in the practice selector. Menu also offers a separate Glass sightline test: glass blocks on all sides and broken eye beams reveal hidden platforms across corrupted data.
+Loss reading lasts 15 seconds; two Continue taps skip it. Compaction deliberately interrupts progress for 15 seconds. Random AI billing dialogs ask for imaginary credits or renewals; choose the free plan and confirm to resume. No real payments are involved. AI billing interrupts at most once per level across retries and compaction. There are fifteen rooms, including nine long levels in the practice selector. Menu also offers a separate Glass sightline test: glass blocks on all sides and the eye's player-tracking line reveals hidden platforms across corrupted data.
 
 ## Audio
 
