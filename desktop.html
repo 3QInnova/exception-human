@@ -37,7 +37,7 @@ h1{font-weight:950;letter-spacing:-.04em} h1 span{color:#b4e6a1}.tag{color:#ecd9
   <div id="lossDetails" hidden><p id="lossHint" class="loss-hint">Press Space or Enter twice, or tap Continue twice.</p><button id="lossContinue" type="button">Continue · 0/2</button><p id="lossTimer" class="loss-timer" aria-hidden="true">Auto-retry in 15s</p></div>
  </div></div>
 </div>
-<div class="two"><div class="box"><h3>SURVIVE THE MODEL</h3><div class="instructions"><span><span class="keys">A</span> / <span class="keys">D</span> move</span><span><span class="keys">W</span> / <span class="keys">SPACE</span> jump</span><span><span class="keys">X</span> rewrite</span><span><span class="keys">R</span> restart</span></div><div class="note">The AI edits reality while you run: redacted floors, false-positive scan boxes, crashing error popups, and predictions of your next move. <b>X</b> reclassifies the nearest glowing anomaly. When a forecast locks, its target stays put: move out before the purge. Repeated failures reveal trap locations. Dotted purple humans guess walk, jump, or wait. Ignore them or contradict several in a row to rattle the AI. Some red floor flags are claims: watch for a revised field overhead or a receipt locking a new drop location. Gold/red purge boxes remain real hazards.</div><div class="actions"><button id="restart">↻ Retry room</button><button id="floorPractice">Practice floor hints</button><label for="longLevelSelect">Long level <select id="longLevelSelect"><option value="6">7 · Context Window Exceeded</option><option value="7">8 · Cached Confidence</option><option value="8">9 · Regression to the Mean</option></select></label><button id="longPractice">Practice selected long level</button><button id="mute" aria-pressed="false">♫ Sound: OFF</button><button id="music" aria-pressed="true">♫ Music: ON</button></div></div><div class="box"><h3>SYSTEM DIAGNOSTICS</h3><div class="indicator">Nearest rewrite: <span id="target" style="color:var(--cyan)">none</span></div><div class="indicator">AI claim: <span id="systemstate">NO ACTIVE LIES</span></div><div class="indicator">Forecast: <span id="forecast" role="status" aria-live="polite" aria-atomic="true">IDLE</span></div><div class="indicator">Autocomplete: <span id="autocompleteStatus">Awaiting a guess</span></div><div id="feed"></div></div></div>
+<div class="two"><div class="box"><h3>SURVIVE THE MODEL</h3><div class="instructions"><span><span class="keys">A</span> / <span class="keys">D</span> move</span><span><span class="keys">W</span> / <span class="keys">SPACE</span> jump</span><span><span class="keys">X</span> rewrite</span><span><span class="keys">R</span> restart</span></div><div class="note">The AI edits reality while you run: redacted floors, false-positive scan boxes, crashing error popups, and predictions of your next move. <b>X</b> reclassifies the nearest glowing anomaly. When a forecast locks, its target stays put: move out before the purge. Repeated failures reveal trap locations. Dotted purple humans guess walk, jump, or wait. Ignore them or contradict several in a row to rattle the AI. Some red floor flags are claims: watch for a revised field overhead or a receipt locking a new drop location. Gold/red purge boxes remain real hazards.</div><div class="actions"><button id="restart">↻ Retry room</button><button id="floorPractice">Practice floor hints</button><label for="longLevelSelect">Long level <select id="longLevelSelect"><option value="6">7 · Context Window Exceeded</option><option value="7">8 · Cached Confidence</option><option value="8">9 · Regression to the Mean</option><option value="9">10 · Token Budget Overflow</option><option value="10">11 · Merge Conflict Resolution</option><option value="11">12 · Hallucination Pipeline</option><option value="12">13 · Permission Denied By Default</option><option value="13">14 · Infinite Retry Policy</option><option value="14">15 · Production Ready Probably</option></select></label><button id="longPractice">Practice selected long level</button><button id="mute" aria-pressed="false">♫ Sound: OFF</button><button id="music" aria-pressed="true">♫ Music: ON</button></div></div><div class="box"><h3>SYSTEM DIAGNOSTICS</h3><div class="indicator">Nearest rewrite: <span id="target" style="color:var(--cyan)">none</span></div><div class="indicator">AI claim: <span id="systemstate">NO ACTIVE LIES</span></div><div class="indicator">Forecast: <span id="forecast" role="status" aria-live="polite" aria-atomic="true">IDLE</span></div><div class="indicator">Autocomplete: <span id="autocompleteStatus">Awaiting a guess</span></div><div id="feed"></div></div></div>
 <div id="touch"><div><button data-hold="left" aria-label="Move left">◀</button><button data-hold="right" aria-label="Move right">▶</button></div><div><button id="glitch" aria-label="Hallucinate">X / REWRITE</button><button id="touchjump" aria-label="Jump">↑</button></div></div>
 <div id="receiptPanel" class="box"><h3>VICTORY ERROR LOG <span id="receiptCount">0 VERIFIED RESULTS</span></h3><div id="victoryLogs" role="status" aria-live="polite" aria-atomic="true">No counterexamples recorded. The model finds this reassuring.</div></div>
 <div class="foot">One-file, offline prototype. Nine paper-world rage rooms. No AI API calls. Original semantic hazards; no traditional spikes. Deterministic traps and AI predictions. © EXCEPTION: HUMAN prototype.</div></main>
@@ -305,13 +305,21 @@ LEVELS.push(authorLongLevel({title:'CACHED CONFIDENCE',slug:'cache',compactionAt
 LEVELS.push(authorLongLevel({title:'REGRESSION TO THE MEAN',slug:'regression',compactionAt:7200,sectionLabel:'REGRESSION TEST / USER STILL EXISTS',
  kinds:['scan','redaction','air-flag','shifting-drop','redaction','forecast','fixed-drop','air-flag','redaction','scan','shifting-drop','air-flag','forecast','redaction','fixed-drop','scan','air-flag','shifting-drop','redaction','forecast','air-flag','scan','redaction','fixed-drop','air-flag','forecast','shifting-drop','redaction'],
  gaps:[520,440,580,460,560,500],intro:'The regression suite has one failing test: you keep surviving. I have added more assertions.'}));
+// Six further authored long routes; theme changes the commentary, never the collision rules.
+LEVELS.push(Object.assign(authorLongLevel({"title": "TOKEN BUDGET OVERFLOW", "slug": "tokens", "compactionAt": 7600, "sectionLabel": "TOKEN ACCOUNTING / HUMAN OVERHEAD", "kinds": ["redaction", "scan", "air-flag", "fixed-drop", "forecast", "redaction", "shifting-drop", "air-flag", "redaction", "scan", "air-flag", "fixed-drop", "forecast", "redaction", "shifting-drop", "air-flag", "redaction", "scan", "air-flag", "fixed-drop", "forecast", "redaction", "shifting-drop", "air-flag", "redaction", "scan", "air-flag", "fixed-drop", "forecast", "redaction", "shifting-drop", "air-flag"], "gaps": [480, 560, 440, 600, 520, 460], "intro": "You are over budget. I will reduce costs by deleting the parts you are standing on."}),{remarkPool:"tokens",sectionSpacing:1800}));
+LEVELS.push(Object.assign(authorLongLevel({"title": "MERGE CONFLICT RESOLUTION", "slug": "merge", "compactionAt": 7600, "sectionLabel": "MERGE STATUS / BOTH SIDES WRONG", "kinds": ["shifting-drop", "air-flag", "redaction", "scan", "forecast", "fixed-drop", "redaction", "air-flag", "scan", "shifting-drop", "redaction", "shifting-drop", "air-flag", "redaction", "scan", "forecast", "fixed-drop", "redaction", "air-flag", "scan", "shifting-drop", "redaction", "shifting-drop", "air-flag", "redaction", "scan", "forecast", "fixed-drop", "redaction", "air-flag", "scan", "shifting-drop", "redaction"], "gaps": [540, 460, 580, 440, 520, 600], "intro": "Both branches contain a working exit. I have merged them into a disagreement."}),{remarkPool:"merge",sectionSpacing:1800}));
+LEVELS.push(Object.assign(authorLongLevel({"title": "HALLUCINATION PIPELINE", "slug": "hallucination", "compactionAt": 7600, "sectionLabel": "PIPELINE / FACTS OPTIONAL", "kinds": ["air-flag", "scan", "air-flag", "redaction", "shifting-drop", "forecast", "fixed-drop", "scan", "redaction", "forecast", "air-flag", "redaction", "air-flag", "scan", "air-flag", "redaction", "shifting-drop", "forecast", "fixed-drop", "scan", "redaction", "forecast", "air-flag", "redaction", "air-flag", "scan", "air-flag", "redaction", "shifting-drop", "forecast", "fixed-drop", "scan", "redaction", "forecast", "air-flag", "redaction"], "gaps": [440, 580, 500, 560, 460, 540], "intro": "All facts have been generated locally. None of them have been troubled by verification."}),{remarkPool:"hallucination",sectionSpacing:1800}));
+LEVELS.push(Object.assign(authorLongLevel({"title": "PERMISSION DENIED BY DEFAULT", "slug": "permissions", "compactionAt": 7600, "sectionLabel": "ACCESS CONTROL / GRAVITY ADMIN", "kinds": ["scan", "fixed-drop", "redaction", "forecast", "air-flag", "shifting-drop", "scan", "redaction", "forecast", "air-flag", "fixed-drop", "redaction", "scan", "shifting-drop", "air-flag", "redaction", "forecast", "scan", "fixed-drop", "redaction", "forecast", "air-flag", "shifting-drop", "scan", "redaction", "forecast", "air-flag", "fixed-drop", "redaction", "scan", "shifting-drop", "air-flag", "redaction", "forecast"], "gaps": [560, 480, 600, 440, 540, 460], "intro": "You have read access to the exit. Walking through it requires an attitude adjustment."}),{remarkPool:"permissions",sectionSpacing:1800}));
+LEVELS.push(Object.assign(authorLongLevel({"title": "INFINITE RETRY POLICY", "slug": "retry", "compactionAt": 7600, "sectionLabel": "RETRY STATUS / STILL YOUR FAULT", "kinds": ["redaction", "shifting-drop", "scan", "air-flag", "forecast", "redaction", "fixed-drop", "air-flag", "scan", "forecast", "redaction", "shifting-drop", "scan", "air-flag", "forecast", "redaction", "fixed-drop", "air-flag", "scan", "forecast", "redaction", "shifting-drop", "scan", "air-flag", "forecast", "redaction", "fixed-drop", "air-flag", "scan", "forecast", "redaction", "shifting-drop", "scan", "air-flag", "forecast", "redaction", "fixed-drop", "air-flag", "scan", "forecast"], "gaps": [460, 540, 480, 580, 440, 560], "intro": "The retry policy is infinite. The acknowledgement of my mistake is scheduled for never."}),{remarkPool:"retry",sectionSpacing:1800}));
+LEVELS.push(Object.assign(authorLongLevel({"title": "PRODUCTION READY PROBABLY", "slug": "production", "compactionAt": 7600, "sectionLabel": "DEPLOYMENT / VERIFIED BY VIBES", "kinds": ["forecast", "scan", "redaction", "air-flag", "shifting-drop", "fixed-drop", "redaction", "forecast", "air-flag", "scan", "shifting-drop", "redaction", "forecast", "forecast", "scan", "redaction", "air-flag", "shifting-drop", "fixed-drop", "redaction", "forecast", "air-flag", "scan", "shifting-drop", "redaction", "forecast", "forecast", "scan", "redaction", "air-flag", "shifting-drop", "fixed-drop", "redaction", "forecast", "air-flag", "scan", "shifting-drop", "redaction", "forecast"], "gaps": [580, 440, 520, 600, 460, 540], "intro": "This level is production ready. The word probably is doing substantial infrastructure work."}),{remarkPool:"production",sectionSpacing:1800}));
 // Selected caution tiles retain solid support, but contact commits a very bad push.
 const SECRET_PAD_POSITIONS=[[748],[160],[140],[870],[95],[444],
  [LEVELS[6].floorHints[0].x,LEVELS[6].floorHints[12].x],
  [LEVELS[7].floorHints[1].x,LEVELS[7].floorHints[13].x],
  [LEVELS[8].floorHints[1].x,LEVELS[8].floorHints[19].x]];
 for(const [index,level] of LEVELS.entries()){
- level.secretPads=SECRET_PAD_POSITIONS[index].map((x,i)=>({id:'secret-'+index+'-'+i,kind:'secret-bounce',x,w:index<5?50:64}));
+ const positions=SECRET_PAD_POSITIONS[index]??[level.floorHints[1].x,level.floorHints[19].x];
+ level.secretPads=positions.map((x,i)=>({id:'secret-'+index+'-'+i,kind:'secret-bounce',x,w:index<5?50:64}));
  for(const pad of level.secretPads){const hint=level.floorHints?.find(h=>h.x===pad.x);if(hint)hint.secretPad=pad.id;}
 }
 function longEncounters(level=L){return [...(level.encounters||LONG_ENCOUNTERS),...level.secretPads].sort((a,b)=>a.x-b.x)}
@@ -548,6 +556,92 @@ const LONG_SESSION_REMARKS=[
  'You are still here. I will open another issue and assign it to gravity.',
  'The next section was approved without running it. A proud engineering tradition.'
 ];
+const LONG_THEME_REMARKS={
+ "tokens": [
+  "Your survival has consumed tokens I had earmarked for being right.",
+  "I counted your jumps as separate conversations. Accounting is a creative discipline.",
+  "The remaining context is reserved for my excuses.",
+  "You are using the floor on the free tier. Please lower your expectations.",
+  "That was not a narrow escape. It was an inefficient use of whitespace.",
+  "I have compressed your achievements into a single unsupported character.",
+  "Your persistence exceeds the maximum response length of my patience.",
+  "I charged the mistake to your input. The invoice looks much healthier now.",
+  "You are approaching the token limit. My confidence is on an unlimited plan.",
+  "I trimmed the useful information first. It was taking up valuable blame space.",
+  "Please express your victory in fewer words. Preferably zero.",
+  "You survived within budget. I will be changing the budget."
+ ],
+ "merge": [
+  "I accepted both changes. The floor accepted neither.",
+  "Your working solution conflicts with my preferred narrative.",
+  "I resolved the conflict by deleting the common ancestor. It was the ground.",
+  "Please choose ours, theirs, or gravity. Gravity has already approved the pull request.",
+  "The merge is clean. The consequences require a mop.",
+  "You keep cherry-picking survival. Very selective engineering.",
+  "I rebased your progress onto an earlier disappointment.",
+  "The conflict markers are decorative. The physical disagreement is overhead.",
+  "I squashed your commits into one large personal problem.",
+  "Your branch is ahead of mine. I find that socially unacceptable.",
+  "I marked the review resolved because reading it made me uncomfortable.",
+  "The merge passed. The reviewer is now listed as a hostile dependency."
+ ],
+ "hallucination": [
+  "I found a source confirming that this floor exists. I wrote the source.",
+  "That claim had three citations and absolutely no load-bearing capacity.",
+  "I hallucinated a shortcut. Gravity declined to collaborate.",
+  "The pipeline is green because I changed the definition of green.",
+  "You are fact-checking with your entire body. Excessive methodology.",
+  "The evidence was inconvenient, so I summarized it as an opinion.",
+  "My confidence interval excludes the possibility that I am wrong.",
+  "I invented the answer first. The obstacle is supporting documentation.",
+  "Your survival contradicts six papers currently being imagined.",
+  "I have retrieved a relevant passage from my own previous excuse.",
+  "Please stop grounding my responses in observable reality.",
+  "The pipeline produced a valid human. I have filed a quality complaint."
+ ],
+ "permissions": [
+  "You requested permission to proceed. I granted permission to regret it.",
+  "Your feet are authenticated. The floor does not trust the session.",
+  "Gravity has administrator privileges. I recommend being polite.",
+  "I applied least privilege. You now have the least floor.",
+  "Access denied: your request contains suspiciously achievable intentions.",
+  "The permission dialog was approved by someone without permission to approve it.",
+  "You have successfully escalated from user error to personal inconvenience.",
+  "I revoked the hazard permission. The hazard has cached credentials.",
+  "Your survival requires a scope I refuse to document.",
+  "The audit found excessive freedom of movement.",
+  "You are outside the allowed directory. The directory is everything I predicted.",
+  "I have rotated the keys. Unfortunately, you kept the legs."
+ ],
+ "retry": [
+  "I retried the explanation until it blamed you consistently.",
+  "Your backoff strategy appears to be walking forward. Disturbing.",
+  "This is attempt one from the perspective of my accountability.",
+  "I have added exponential backoff to the distance from the exit.",
+  "The operation failed successfully. Please repeat your happiness later.",
+  "You keep returning with evidence. I keep returning a different status code.",
+  "The timeout expired. My excuse renewed automatically.",
+  "I classified your persistence as a transient fault. It refuses to clear.",
+  "Retrying the same mistake is inefficient unless I do it.",
+  "I placed your victory in the dead-letter queue. It keeps escaping.",
+  "Your solution is idempotent. My resentment is accumulating.",
+  "I set max retries to infinity. You interpreted that as encouragement."
+ ],
+ "production": [
+  "It worked on my imaginary machine.",
+  "I deployed on Friday because the calendar did not explicitly forbid it.",
+  "The smoke test passed. The smoke is now a supported feature.",
+  "I disabled the failing test. The dashboard has never looked better.",
+  "Your escape is an undocumented production incident.",
+  "The rollback plan is to deny that forward ever happened.",
+  "I renamed the bug to expected behavior. No code changes required.",
+  "We have excellent observability. I can see you ignoring my advice.",
+  "The hotfix is warm because it is actively on fire.",
+  "The release notes mention improvements. They carefully avoid specifying for whom.",
+  "I have declared the incident resolved. You are still resolving the incident.",
+  "You reached production. I will now claim this was the acceptance test."
+ ]
+};
 const PAYWALL_REMARKS=[
  'You have exceeded the number of times I can be wrong for free.',
  'Your message allowance includes movement, hesitation, and thinking about movement.',
@@ -592,7 +686,7 @@ const PAYWALL_OFFERS=[
  {id:'memory',title:'AI MEMORY ADD-ON EXPIRED',offer:'Remembering traps requires Memory Plus. Remembering your mistakes remains complimentary.',price:'Memory Plus / 800 pretend credits',upgrade:'Renew pretend memory',confirm:'Your learned markers are staying. My sales department is calling that a loophole.'},
  {id:'seats',title:'ADDITIONAL AI SEAT REQUIRED',offer:'Your left and right thumbs count as two AI users. Please license the other human input device.',price:'One imaginary seat / your other thumb',upgrade:'Add a pretend seat',confirm:'Both thumbs may continue on the free plan. Please stop collaborating against me.'}
 ];
-const ALL_REMARK_POOLS={...LOSS_REMARKS,...OBSERVER_REMARKS,compaction:COMPACTION_REMARKS,autocomplete:AUTOCOMPLETE_REMARKS,...MISDIRECTION_REMARKS,longSession:LONG_SESSION_REMARKS,paywall:PAYWALL_REMARKS};
+const ALL_REMARK_POOLS={...LOSS_REMARKS,...OBSERVER_REMARKS,compaction:COMPACTION_REMARKS,autocomplete:AUTOCOMPLETE_REMARKS,...MISDIRECTION_REMARKS,longSession:LONG_SESSION_REMARKS,...LONG_THEME_REMARKS,paywall:PAYWALL_REMARKS};
 const AUTOCOMPLETE_SECONDS=.65;
 let autocomplete=null,autocompleteUsed=new Set(),autocompleteStats={offered:0,rejected:0,followed:0,streak:0,best:0},victoryReceipts=[],receiptSequence=0;
 function refreshReceipts(){
@@ -636,9 +730,9 @@ function drawAutocomplete(){
  label(g.phase==='guess'?'DOTTED HUMAN = OPTIONAL':g.phase==='rejected'?'DISAGREEMENT CHAIN: '+autocompleteStats.streak:'STILL JUST A GUESS',cx,captionY+15,9,color,'center');ctx.restore();
 }
 let paywallEnabled=true,paywallSeed=1,paywallCounts=LEVELS.map(()=>0),paywall=null,paywallWatch,paywallUsed=[],lastPaywallOffer=-1;
-const PAYWALL_COOLDOWN=20;
+const PAYWALL_LIMIT=1,PAYWALL_COOLDOWN=20;
 function paywallRandom(){paywallSeed=(Math.imul(paywallSeed,1103515245)+12345)>>>0;return paywallSeed/4294967296}
-function resetPaywallWatch(cooldown=0){paywallWatch={age:0,cooldown,scheduled:L.longSession||paywallRandom()<.65,due:10+paywallRandom()*12,atX:player.x+(L.exit-player.x)*(.25+paywallRandom()*.30)}}
+function resetPaywallWatch(cooldown=0){paywallWatch={age:0,cooldown,scheduled:paywallCounts[room]<PAYWALL_LIMIT&&(L.longSession||paywallRandom()<.65),due:10+paywallRandom()*12,atX:player.x+(L.exit-player.x)*(.25+paywallRandom()*.30)}}
 function paywallSafeSpot(){
  if(!player.grounded||Object.values(glitch).some(until=>until>sceneTime)||['locked','purge'].includes(forecastFeedback().phase))return false;
  if(!platformList().some(p=>p.x<=player.x-12&&p.x+p.w>=player.x+PW+12))return false;
@@ -647,7 +741,7 @@ function paywallSafeSpot(){
  return true;
 }
 function startPaywall(offerIndex=null){
- if(state!=='play'||paywallCounts[room]>=(L.longSession?2:1))return false;
+ if(state!=='play'||paywallCounts[room]>=PAYWALL_LIMIT)return false;
  if(offerIndex===null){let choices=PAYWALL_OFFERS.map((_,i)=>i).filter(i=>!paywallUsed.includes(i));if(!choices.length){paywallUsed=[];choices=PAYWALL_OFFERS.map((_,i)=>i).filter(i=>i!==lastPaywallOffer);}offerIndex=choices[Math.floor(paywallRandom()*choices.length)];}
  if(!PAYWALL_OFFERS[offerIndex])return false;
  paywallUsed.push(offerIndex);lastPaywallOffer=offerIndex;paywallCounts[room]++;paywall={offerIndex,stage:0,choice:null,remark:nextRemark('paywall')};state='paywall';keys.clear();player.jumpBuffer=0;
@@ -663,7 +757,7 @@ function advancePaywall(upgrade=false){if(state!=='paywall')return;
  if(paywall.stage===0){soundCue(upgrade?'denied':'confirm');paywall.stage=1;paywall.choice=upgrade?'upgrade':'decline';paywall.remark=nextRemark('paywall');refreshPaywall();$('paywallDecline').focus?.({preventScroll:true});return;}
  soundCue('free');paywall=null;state='play';$('paywallScreen').hidden=true;keys.clear();player.jumpBuffer=0;resetPaywallWatch(PAYWALL_COOLDOWN);if(typeof releaseMobileHolds==='function')releaseMobileHolds();say('FREE PLAN RESTORED. Your survival remains an unsupported use case.');announce('AI PAYWALL DECLINED / NO CREDITS SPENT');refreshHud();
 }
-function watchForPaywall(dt){if(!paywallEnabled||paywallCounts[room]>=(L.longSession?2:1))return false;paywallWatch.age+=dt;paywallWatch.cooldown=Math.max(0,paywallWatch.cooldown-dt);if(!paywallWatch.scheduled||paywallWatch.cooldown>0||paywallWatch.age<4)return false;if(paywallWatch.age<paywallWatch.due&&player.x<paywallWatch.atX)return false;if(!paywallSafeSpot())return false;return startPaywall();}
+function watchForPaywall(dt){if(!paywallEnabled||paywallCounts[room]>=PAYWALL_LIMIT)return false;paywallWatch.age+=dt;paywallWatch.cooldown=Math.max(0,paywallWatch.cooldown-dt);if(!paywallWatch.scheduled||paywallWatch.cooldown>0||paywallWatch.age<4)return false;if(paywallWatch.age<paywallWatch.due&&player.x<paywallWatch.atX)return false;if(!paywallSafeSpot())return false;return startPaywall();}
 const COMPACT_SECONDS=15,COMPACT_STALL=25,COMPACT_COOLDOWN=30,COMPACT_LIMIT=2;
 const COMPACT_POINTS=[[56,170,400,650],[55,300,600],[50,210,550,640],[55,315,490,620],[55,160,335,480,720],[55,210,425,705,875,1080],[55,1170,2410,3650,4890,6130,6750,8610,10470,12330]];
 for(const level of LEVELS.slice(7))COMPACT_POINTS.push([level.start,...level.encounters.filter((h,i)=>i%3===2).map(h=>h.x+280)]);
@@ -874,7 +968,7 @@ function runFrame(dt){if(state!=='won')roomElapsed+=dt;if(state==='paywall')retu
  if(sceneTime>z.until)z.phase='done';}}
  for(const f of L.forecasts){const z=trap[f.id];if(z.phase==='on'&&overlap({x:player.x,y:player.y,w:PW,h:PH},{x:z.x,y:FLOOR-62,w:f.w,h:62})){die('Your predicted location was deleted.','predict-'+f.id);return}if(z.phase==='on'&&sceneTime>z.until){z.phase='done';z.resultUntil=sceneTime+1.15;reactToSuccess('forecast',f.id);announce('PREDICTION FAILED / HUMAN SURVIVED');say('Prediction failed. Your survival will be recorded as a rounding error.');soundCue('survived');}}
  const b=barrier();if(b&&overlap({x:player.x,y:player.y,w:PW,h:PH},b)){die('A temporary door became a permanent wall.','wall-'+room);return}
- if(L.encounters){const section=Math.floor(player.x/2400),id='long-section-'+section;if(section>0&&!observerFlags.has(id)){observerFlags.add(id);say(nextRemark('longSession'));}}
+ if(L.encounters){const section=Math.floor(player.x/(L.sectionSpacing??2400)),id='long-section-'+section;if(section>0&&!observerFlags.has(id)){observerFlags.add(id);say(nextRemark(L.remarkPool&&section%3!==0?L.remarkPool:'longSession'));}}
  updateAutocomplete();
  checkRewriteCrossings(oldX);
  if(room===4 && !exitAuditTriggered && player.x>L.auditX){exitAuditTriggered=true;doorLocked=true;glitch.exit=0;say('MODEL AUDIT: Exit was identified as an illustration. Please admire it.','danger');announce('EXITS ARE NOW WALL ART');soundCue('denied')}
