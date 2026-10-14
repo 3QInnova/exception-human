@@ -14,6 +14,10 @@ PC: A/D or arrows move, Space jumps, X rewrites, R retries. iPhone: landscape Sa
 
 Loss reading lasts 15 seconds; two Continue taps skip it. Compaction deliberately interrupts progress for 15 seconds. Random AI billing dialogs ask for imaginary credits or renewals; choose the free plan and confirm to resume. No real payments are involved.
 
+## Audio
+
+Enable Sound (in Menu on iPhone) for an original procedural synth score and 22 layered effects. Music has a separate toggle. Loss reading quiets the music; compaction stutters it and AI billing interrupts with fake elevator music. Backgrounding or pausing stops audio. No audio assets or services are downloaded.
+
 ## Feedback
 
 Tell Will your device/browser, where you got stuck, what felt funny or unfair, and whether you would play again. There is no automatic gameplay feedback collection.
